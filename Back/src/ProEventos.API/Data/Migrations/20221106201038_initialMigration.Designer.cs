@@ -8,7 +8,7 @@ using ProEventos.API.Data;
 namespace ProEventos.API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221105185234_initialMigration")]
+    [Migration("20221106201038_initialMigration")]
     partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,9 @@ namespace ProEventos.API.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("DataEvento")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageAlt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageURL")
