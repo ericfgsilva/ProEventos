@@ -18,7 +18,7 @@
       <th>
         <button class="btn btn-outline-light btn-sm"
           (click)="mostrarImagem()">
-          {{exibirImage ? "ocultar" : "exibir"}}
+          {{exibirImage ? "exibir" : "ocultar"}}
         </button>
       </th>
       <th>#</th>
@@ -41,12 +41,12 @@
              [style.margin.px]="margemImg"
         >
       </td>
-      <td>{{evento.eventoId}}</td>
+      <td>{{evento.id}}</td>
       <td>{{evento.tema}}</td>
       <td>{{evento.local}}</td>
       <td>{{evento.dataEvento}}</td>
       <td>{{evento.qtdPessoas}}</td>
-      <td>{{evento.lote}}</td>
+      <td>{{evento.lotes[0].nome}}</td>
       <td>
         <button type="button" class="btn btn-primary btn-sm mr-2">Editar</button>
         <button type="button" class="btn btn-danger btn-sm">Excluir</button>
