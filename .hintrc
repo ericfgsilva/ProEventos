@@ -4,6 +4,12 @@
   ],
   "hints": {
     "axe/name-role-value": "off",
-    "no-inline-styles": "off"
+    "no-inline-styles": "off",
+    "axe/aria": [
+      "default",
+      {
+        "aria-allowed-attr": "off"
+      }
+    ]
   }
 }
