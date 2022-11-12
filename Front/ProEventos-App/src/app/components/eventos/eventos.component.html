@@ -1,6 +1,4 @@
-<h1>Eventos</h1>
-<hr>
-
+<app-titulo [titulo]="'Eventos'"></app-titulo>
 <div class="form-inline">
   <div class="form-group mb-2">
     <label class="mr-2" strong><strong>Filtro: </strong></label>
@@ -18,7 +16,7 @@
       <th>
         <button class="btn btn-outline-light btn-sm"
           (click)="mostrarImagem()">
-          <i class="{{exibirImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></i>
+          <em class="{{exibirImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></em>
           {{exibirImage ? "Exibir" : "Ocultar"}}
         </button>
       </th>
@@ -50,10 +48,10 @@
       <td>{{evento.lotes[0].nome}}</td>
       <td>
         <button type="button" class="btn btn-primary btn-sm mr-2" tooltip="Editar evento">
-          <i class="fa fa-edit"></i>
+          <em class="fa fa-edit"></em>
         </button>
         <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir evento" (click)="openModal(template)">
-          <i class="fa fa-trash"></i>
+          <em class="fa fa-trash"></em>
         </button>
       </td>
     </tr>
