@@ -18,7 +18,8 @@
       <th>
         <button class="btn btn-outline-light btn-sm"
           (click)="mostrarImagem()">
-          {{exibirImage ? "exibir" : "ocultar"}}
+          <i class="{{exibirImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></i>
+          {{exibirImage ? "Exibir" : "Ocultar"}}
         </button>
       </th>
       <th>#</th>
@@ -48,8 +49,12 @@
       <td>{{evento.qtdPessoas}}</td>
       <td>{{evento.lotes[0].nome}}</td>
       <td>
-        <button type="button" class="btn btn-primary btn-sm mr-2">Editar</button>
-        <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+        <button type="button" class="btn btn-primary btn-sm mr-2" title="Editar evento">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" title="Excluir evento">
+          <i class="fa fa-trash"></i>
+        </button>
       </td>
     </tr>
   </tbody>
