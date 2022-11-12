@@ -480,9 +480,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-*/angular-webpack/*/*.pack.old
-*/angular-webpack/*/*.pack
-/.angular/cache
+/.angular/cache/*
 .sass-cache/
 /connect.lock
 /coverage
