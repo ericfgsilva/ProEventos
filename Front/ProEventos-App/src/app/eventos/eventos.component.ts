@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+
+import { ToastrService } from 'ngx-toastr';
 import { EventoService } from '../services/evento.service';
 import { Evento } from '../models/Evento';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-eventos',
@@ -9,6 +12,12 @@ import { Evento } from '../models/Evento';
 })
 export class EventosComponent implements OnInit {
 
+  modalRef?: BsModalRef;
+  config = {
+    backdrop: true,
+    ignoreBackdropClick: true,
+    class: 'modal-sm'
+  };
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
 
@@ -36,7 +45,11 @@ export class EventosComponent implements OnInit {
     )
   }
 
-  constructor(private eventoService: EventoService){}
+  constructor(
+    private eventoService: EventoService,
+    private modalService: BsModalService,
+    private toastr: ToastrService
+  ){}
 
   public ngOnInit(): void {
     this.getEventos();
@@ -55,6 +68,20 @@ export class EventosComponent implements OnInit {
       error: (error: any) => console.log(error)
     }
     this.eventoService.getEventos().subscribe(observer);
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, this.config);
+  }
+
+  confirm(): void {
+    this.modalRef?.hide();
+    this.toastr.success('Ação executada com sucesso!', 'Sucesso!');
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
+    this.toastr.info('Nenhuma ação foi executada!', 'Informação!');
   }
 
 }
