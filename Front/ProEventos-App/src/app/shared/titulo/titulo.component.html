@@ -1,4 +1,4 @@
-<div class="d-flex p-3 my-3 text-white bg-secondary shadow-sm">
+<div class="d-flex p-3 my-3 text-white bg-secondary shadow-sm rounded">
   <div class="d-flex align-items-center mr-auto">
     <i class="{{iconClass}} mr-3"></i>
     <div class="lh-100">
@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="p-3" *ngIf="botaoListar">
-    <button class="btn btn-outline-light">
+    <button class="btn btn-outline-light" (click)="listar()">
       Listar {{titulo}}
     </button>
   </div>
