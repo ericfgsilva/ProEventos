@@ -1,34 +1,50 @@
 <div class="card rounded shadown-sm">
-  <form>
+  <form [formGroup]="formulario">
     <div class="p-3">
       <div class="form-row">
         <div class="form-group col-md-12">
           <label>Tema</label>
-          <input type="text" class="form-control" placeholder="Insira o Tema">
+          <input type="text" class="form-control is-invalid" formcontrolName="tema" placeholder="Insira o Tema">
+          <div class="invalid-feedback">tema é obrigatório</div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-8">
           <label>Local</label>
-          <input title="local" type="text" class="form-control" placeholder="">
+          <input title="local" type="text" class="form-control  is-invalid" formcontrolName="local" placeholder="Insira o local">
+          <div class="invalid-feedback">local é obrigatório</div>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
           <label>Data e Hora</label>
-          <input title="data e hora" type="datetime" class="form-control" placeholder="">
+          <input title="data e hora" type="datetime" class="form-control  is-invalid" formcontrolName="dataEvento" placeholder="Defina data e hora">
+          <div class="invalid-feedback">data e hora é obrigatório</div>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Qtd Pessoas</label>
+          <input title="quantidade de pessoas" type="text" class="form-control  is-invalid" formcontrolName="qtdPessoas" placeholder="Informe quantidade">
+          <div class="invalid-feedback">quantidade é obrigatório</div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-2">
-          <label>Qtd Pessoas</label>
-          <input title="quantidade de pessoas" type="text" class="form-control" placeholder="">
+          <label>Telefone</label>
+          <input title="telefone" type="text" class="form-control  is-invalid" formcontrolName="telefone" placeholder="(000) 90000-0000">
+          <div class="invalid-feedback">telefone é obrigatório</div>
         </div>
         <div class="form-group col-md-4">
-          <label>Telefone</label>
-          <input title="telefone" type="text" class="form-control" placeholder="(000) 90000-0000">
-        </div>
-        <div class="form-group col-md-6">
           <label>Email</label>
-          <input title="e-mail" type="text" class="form-control" placeholder="e-mail">
+          <input title="e-mail" type="text" class="form-control  is-invalid" formcontrolName="email" placeholder="E-mail">
+          <div class="invalid-feedback">e-mail é obrigatório</div>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Imagem</label>
+          <input title="Imagem" type="text" class="form-control  is-invalid" formcontrolName="imagemURL" placeholder="imagem">
+          <div class="invalid-feedback">imagem é obrigatório</div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Descrição da imagem</label>
+          <input title="Descrição da Imagem" type="text" class="form-control  is-invalid" formcontrolName="imagemAlt" placeholder="Descreva a imagem selecionada">
+          <div class="invalid-feedback">descrição da imagem é obrigatório</div>
         </div>
       </div>
     </div>
