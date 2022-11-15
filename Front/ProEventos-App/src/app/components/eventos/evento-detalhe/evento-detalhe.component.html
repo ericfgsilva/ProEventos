@@ -4,8 +4,12 @@
       <div class="form-row">
         <div class="form-group col-md-12">
           <label>Tema</label>
-          <input type="text" class="form-control is-invalid" formcontrolName="tema" placeholder="Insira o Tema">
-          <div class="invalid-feedback">tema é obrigatório</div>
+          <input type="text" class="form-control"
+          [ngClass]="{'is-invalid': formulario.get('tema')?.errors && formulario.get('tema')?.touched }"
+          formcontrolName="tema" placeholder="Insira o Tema">
+          <div *ngIf="formulario.get('tema')?.hasError('required')" class="invalid-feedback">tema é obrigatório</div>
+          <div *ngIf="formulario.get('tema')?.hasError('minlength')" class="invalid-feedback">tema deve ter no mínimo 4 dígitos</div>
+          <div *ngIf="formulario.get('tema')?.hasError('maxlength')" class="invalid-feedback">tema deve ter no máximo 50 dígitos</div>
         </div>
       </div>
       <div class="form-row">
