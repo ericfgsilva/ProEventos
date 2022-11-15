@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -8,12 +8,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class EventoDetalheComponent implements OnInit {
 
-  //formulario: FormGroup;
   formulario!: FormGroup;
 
-  constructor() {
-    //this.formulario = new FormGroup({})
+  get form(): any {
+    return this.formulario.controls;
   }
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.validation();
@@ -21,25 +22,23 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public validation(): void{
-    this.formulario = new FormGroup({
-      tema: new FormControl('',
-        [Validators.required, Validators.minLength(4), Validators.maxLength(50)]
-      ),
-      local: new FormControl('', Validators.required),
-      dataEvento: new FormControl('',
-        [Validators.required, Validators.maxLength(120000)]
-      ),
-      qtdPessoas: new FormControl('', Validators.required),
-      telefone: new FormControl('', Validators.required),
-      email: new FormControl('',
-        [Validators.required, Validators.email]
-      ),
-      imageURL: new FormControl('', Validators.required),
-      imageAlt: new FormControl('', Validators.required),
+    this.formulario = this.fb.group({
+      tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      local: ['', Validators.required],
+      dataEvento: ['', Validators.required],
+      qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
+      telefone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      imageURL: ['', Validators.required],
+      imageAlt: ['', [Validators.required, Validators.minLength(10)]],
     })
   }
 
-  
+  public resetForm(): void {
+    this.formulario.reset();
+  }
+
+
 
 
 }
