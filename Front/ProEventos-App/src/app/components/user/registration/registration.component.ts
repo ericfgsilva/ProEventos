@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private validation(): void{
-    
+
     const formOptions: AbstractControlOptions = {
       validators: ValidatorField.MustMatch('senha', 'confirmeSenha')
     };
