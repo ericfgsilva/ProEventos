@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ProEventos.Domain
 {
+    //[Table("EventosDetalhes")] --para utilizar o nome da tabela e correlacioanr ao nome definido no código.(ex: no banco é EventosDetalhes e no código c# é Evento)
     public class Evento
     {
         public int Id { get; set; }
