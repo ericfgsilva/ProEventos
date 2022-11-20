@@ -45,7 +45,7 @@
           <label>Qtd Pessoas</label>
           <input title="quantidade de pessoas" type="number" class="form-control"
           [ngClass]="cssValidator(form.qtdPessoas)"
-          formControlName="qtdPessoas" placeholder="Quantidade">
+          formControlName="qtdPessoas" placeholder="Qtd">
           <div *ngIf="form.qtdPessoas?.errors?.required" class="invalid-feedback">
             quantidade é obrigatório.
           </div>
