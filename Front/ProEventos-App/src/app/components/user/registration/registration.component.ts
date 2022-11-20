@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorField } from '@app/helpers/ValidatorField';
 
 @Component({
@@ -40,5 +40,10 @@ export class RegistrationComponent implements OnInit {
   public resetForm(): void {
     this.formulario.reset();
   }
+
+  public cssValidator(campoForm: FormControl): any{
+    return {'is-invalid': campoForm.errors && campoForm.touched};
+  }
+
 
 }
