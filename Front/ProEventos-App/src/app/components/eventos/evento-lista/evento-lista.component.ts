@@ -20,6 +20,7 @@ export class EventoListaComponent implements OnInit {
   };
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
+  public eventoId= 0;
 
   public larguraImg = 100;
   public margemImg = 2;
@@ -77,13 +78,15 @@ export class EventoListaComponent implements OnInit {
     this.eventoService.getEventos().subscribe(observer);
   }
 
-  openModal(template: TemplateRef<any>): void {
+  openModal(event: any, eventoId: number, template: TemplateRef<any>): void {
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, this.config);
   }
 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('Ação executada com sucesso!', 'Sucesso!');
+    this.toastr.success('O evento foi excluído com sucesso!', 'Sucesso!');
   }
 
   decline(): void {
