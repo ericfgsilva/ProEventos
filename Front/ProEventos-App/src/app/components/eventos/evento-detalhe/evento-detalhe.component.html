@@ -105,8 +105,7 @@
         <button type="reset" class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
           Cancelar Alteração
         </button>
-        <button type="submit" class="btn btn-success" [disabled]="!formulario.valid">
-          <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
+        <button type="submit" class="btn btn-success" [disabled]="!formulario.valid" (click)="salvarAlteracao()">
           Salvar Evento
         </button>
       </div>

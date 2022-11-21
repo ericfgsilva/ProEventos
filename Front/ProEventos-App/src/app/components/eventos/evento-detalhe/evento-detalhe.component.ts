@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route } from '@angular/router';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -18,6 +18,7 @@ export class EventoDetalheComponent implements OnInit {
 
   evento = {} as Evento;
   formulario!: FormGroup;
+  estadoSalvar = 'post';
 
   get form(): any {
     return this.formulario.controls;
@@ -48,7 +49,10 @@ export class EventoDetalheComponent implements OnInit {
     const eventoIdParam = this.router.snapshot.paramMap.get('id');
 
     if(eventoIdParam != null) {
-      this.spinner.show();            //conversão do parâmetro eventoIdParam texto para number
+      this.spinner.show();
+
+      this.estadoSalvar = 'put';
+                                      //conversão do parâmetro eventoIdParam texto para number
       this.eventoService.getEventoById(+eventoIdParam).subscribe({
         next: (evento: Evento) => {
           this.evento = {...evento}; //... atribui todas as propriedades de evento a this.evento
@@ -91,4 +95,30 @@ export class EventoDetalheComponent implements OnInit {
   public cssValidator(campoForm: FormControl): any{
     return {'is-invalid': campoForm.errors && campoForm.touched};
   }
-}
+
+  public salvarAlteracao(): void{
+    this.spinner.show();
+
+    if(this.formulario.valid){
+      if(this.estadoSalvar === 'post'){
+        this.evento = {...this.formulario.value};
+        this.eventoService.post(this.evento).subscribe({
+          next: (result: any) => {this.toastr.success('Evento criado com sucesso!', 'Sucesso');},
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error('Erro ao criar o evento', 'Erro');
+          }
+        }).add(() => this.spinner.hide());
+      }else{
+        this.evento = {id: this.evento.id, ...this.formulario.value};
+        this.eventoService.put(this.evento).subscribe({
+          next: (result: any) => {this.toastr.success('Evento salvo com sucesso!', 'Sucesso');},
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error('Erro ao salvar o evento', 'Erro');
+          }
+        }).add(() => this.spinner.hide());
+      }
+    }
+  }
+  }
