@@ -1,11 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
 using ProEventos.Domain;
 using ProEventos.Persistence.Contratos;
 
-namespace ProEventos.Application.Contratos
+namespace ProEventos.Application
 {
     public class EventoService : IEventoService
     {
@@ -69,7 +70,7 @@ namespace ProEventos.Application.Contratos
             try
             {
                 var evento = await _eventoPersist.GetEventoByIdAsync(eventoId, false);
-                if(evento == null) throw new Exception("Evento para delete não foi encontrado.");
+                if(evento == null) throw new Exception("Evento para remover não foi encontrado.");
 
                 _geralPersist.Delete<Evento>(evento);
                 return await _geralPersist.SaveChangesAsync();
