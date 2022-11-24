@@ -105,7 +105,7 @@
         <button type="reset" class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
           Cancelar Alteração
         </button>
-        <button type="submit" class="btn btn-success" [disabled]="!formulario.valid" (click)="salvarAlteracao()">
+        <button type="submit" class="btn btn-success" [disabled]="!formulario.valid" (click)="salvarEvento()">
           Salvar Evento
         </button>
       </div>
@@ -113,7 +113,7 @@
   </form>
 </div>
 <!--Código do Lote-->
-<div class="card rounded shadow-sm mt-4">
+<div class="card rounded shadow-sm mt-4" *ngIf="modoEditar">
   <div class="p-3">
     <div class="d-flex border-bottom">
       <h2 class="mr-auto">
@@ -131,21 +131,24 @@
       </button>
     </div>
     <div class="form-row p-1">
-      <div class="col">
+      <div [formGroup]="formulario" class="col">
         <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i=index">
-          <fieldset class="form-group">
+          <fieldset [formGroupName]="i" class="form-group">
             <div class="row">
               <div class="form-group col-md-4">
                 <label>Nome</label>
-                <input type="text" class="form-control" formControlName="nome" placeholder="Lote">
+                <input [ngClass]="cssValidator(lotes.get(i+'.nome'))"
+                type="text" class="form-control" formControlName="nome" placeholder="Lote">
               </div>
               <div class="form-group col-md-4">
                 <label>Quantidade</label>
-                <input type="text" class="form-control" formControlName="quantidade" placeholder="000">
+                <input [ngClass]="cssValidator(lotes.get(i+'.quantidade'))"
+                type="text" class="form-control" formControlName="quantidade" placeholder="000">
               </div>
               <div class="form-group col-md-3">
                 <label>Preço</label>
-                <input type="text" currencyMask class="form-control" formControlName="preco" placeholder="R$ 0,00">
+                <input [ngClass]="cssValidator(lotes.get(i+'.preco'))"
+                type="text" currencyMask class="form-control" formControlName="preco" placeholder="R$ 0,00">
               </div>
               <div class="col-md-1 pb-2 align-self-end ml-auto">
                 <legend class="d-flex justify-content-between">
@@ -161,22 +164,13 @@
               </div>
               <div class="form-group col-md-4">
                 <label>Data Início</label>
-                <input type="text" class="form-control" formControlName="dataInicio" placeholder="01/01/2019">
+                <input [ngClass]="cssValidator(lotes.get(i+'.dataInicio'))"
+                type="text" class="form-control" formControlName="dataInicio" placeholder="01/01/2019">
               </div>
               <div class="form-group col-md-4">
                 <label>Data Fim</label>
-                <input type="text" class="form-control" formControlName="dataFim" placeholder="01/01/2019">
-              </div>
-              <div class="col-md-1 align-self-end ml-auto">
-                <!-- <legend class="d-flex justify-content-between">
-                  <button (click)="excluirLote(i)" class="border-0 p-2 ps-3 pe-3 btn btn-sm btn-outline-danger d-flex"
-                    tooltip="Excluir Lote"
-                    [adaptivePosition]="false"
-                    [delay]="500"
-                    placement="left">
-                    <em class="fa pe-1 fa-trash my-1"></em>
-                  </button>
-                </legend> -->
+                <input [ngClass]="cssValidator(lotes.get(i+'.dataFim'))"
+                type="text" class="form-control" formControlName="dataFim" placeholder="01/01/2019">
               </div>
             </div>
         </fieldset>
@@ -189,9 +183,10 @@
     <button class="btn btn-outline-secondary mr-auto border">
       Cancelar Alteração
     </button>
-    <button class="btn btn-success">
+    <button (click)="salvarLote()" class="btn btn-success">
       Salvar Lotes
     </button>
   </div>
 </div>
 </div>
+<br>

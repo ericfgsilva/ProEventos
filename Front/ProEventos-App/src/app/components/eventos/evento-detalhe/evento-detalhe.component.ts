@@ -1,26 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Route } from '@angular/router';
+import { AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
-import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
+import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
 import { LoteService } from '@app/services/lote.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-evento-detalhe',
   templateUrl: './evento-detalhe.component.html',
-  styleUrls: ['./evento-detalhe.component.scss']
+  styleUrls: ['./evento-detalhe.component.scss'],
+  providers: [DatePipe]
 })
 export class EventoDetalheComponent implements OnInit {
 
   evento = {} as Evento;
   formulario!: FormGroup;
   estadoSalvar = 'post';
+
+  get eventoId(): number{
+  const eventoIdParam = this.activatedRouter.snapshot.paramMap.get('id');
+  return eventoIdParam !== null ? +eventoIdParam : 0;
+  }
+
+  get modoEditar(): boolean{
+    return this.estadoSalvar === 'put';
+  }
 
   get lotes(): FormArray{
     return this.formulario.get('lotes') as FormArray;
@@ -33,7 +49,6 @@ export class EventoDetalheComponent implements OnInit {
   get bsConfig(): any {
     return {
       adaptivePosition: true,
-      isAnimated: true,
       dateInputFormat: 'DD/MM/YYYY HH:mm',
       containerClass: 'theme-default',
       showWeekNumbers: false
@@ -43,8 +58,10 @@ export class EventoDetalheComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private localeService: BsLocaleService,
-    private router: ActivatedRoute,
+    private activatedRouter: ActivatedRoute,
+    private router: Router,
     private eventoService: EventoService,
+    private loteService: LoteService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService)
   {
@@ -52,14 +69,13 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public carregarEvento(): void {
-    const eventoIdParam = this.router.snapshot.paramMap.get('id');
 
-    if(eventoIdParam != null) {
+    if(this.eventoId !== null && this.eventoId !== 0) {
       this.spinner.show();
 
       this.estadoSalvar = 'put';
                                       //conversão do parâmetro eventoIdParam texto para number
-      this.eventoService.getEventoById(+eventoIdParam).subscribe({
+      this.eventoService.getEventoById(+this.eventoId).subscribe({
         next: (evento: Evento) => {
           this.evento = {...evento}; //... atribui todas as propriedades de evento a this.evento
           this.formulario.patchValue(this.evento);
@@ -78,7 +94,6 @@ export class EventoDetalheComponent implements OnInit {
   ngOnInit(): void {
     this.carregarEvento();
     this.validation();
-
   }
 
   public validation(): void{
@@ -118,21 +133,24 @@ export class EventoDetalheComponent implements OnInit {
     this.formulario.reset();
   }
 
-  public cssValidator(campoForm: FormControl): any{
-    return {'is-invalid': campoForm.errors && campoForm.touched};
+  public cssValidator(campoForm: FormControl | AbstractControl | null): any{
+    return {'is-invalid': campoForm?.errors && campoForm?.touched};
   }
 
-  public salvarAlteracao(): void{
+  public salvarEvento(): void{
     this.spinner.show();
 
     if(this.formulario.valid){
       if(this.estadoSalvar === 'post'){
         this.evento = {...this.formulario.value};
         this.eventoService.post(this.evento).subscribe({
-          next: (result: any) => {this.toastr.success('Evento criado com sucesso!', 'Sucesso');},
+          next: (eventoRetorno: Evento) => {
+            this.toastr.success('Evento criado com sucesso!', 'Sucesso');
+            this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
+          },
           error: (error: any) => {
             console.error(error);
-            this.toastr.error('Erro ao criar o evento', 'Erro');
+            this.toastr.error('Erro ao criar o evento.', 'Erro');
           }
         }).add(() => this.spinner.hide());
       }else{
@@ -141,10 +159,29 @@ export class EventoDetalheComponent implements OnInit {
           next: (result: any) => {this.toastr.success('Evento salvo com sucesso!', 'Sucesso');},
           error: (error: any) => {
             console.error(error);
-            this.toastr.error('Erro ao salvar o evento', 'Erro');
+            this.toastr.error('Erro ao salvar o evento.', 'Erro');
           }
         }).add(() => this.spinner.hide());
       }
     }
   }
+
+  public salvarLote(): void{
+    this.spinner.show();
+    if(this.form.controls.lotes.valid){
+      this.loteService.saveLotes(this.eventoId, this.form.value.lotes)
+        .subscribe(
+          () => {
+            this.toastr.success('Lotes salvos com sucesso!','Sucesso');
+            this.lotes.reset();
+          },
+          (error: any) => {
+            console.error(error);
+            this.toastr.error('Erro ao salvar lotes.', 'Erro');
+          }
+        ).add(() => this.spinner.hide());
+    }
   }
+
+
+}
