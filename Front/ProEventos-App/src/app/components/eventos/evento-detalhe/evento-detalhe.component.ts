@@ -75,20 +75,38 @@ export class EventoDetalheComponent implements OnInit {
 
       this.estadoSalvar = 'put';
                                       //conversão do parâmetro eventoIdParam texto para number
-      this.eventoService.getEventoById(+this.eventoId).subscribe({
+      this.eventoService.getEventoById(this.eventoId).subscribe({
         next: (evento: Evento) => {
           this.evento = {...evento}; //... atribui todas as propriedades de evento a this.evento
           this.formulario.patchValue(this.evento);
+          //esta forma é mais eficaz em relação ao carregarLotes() uma vez que o objeto evento já retorna a lista de lotes
+          this.evento.lotes.forEach(lote => {
+            this.lotes.push(this.criarLote(lote));
+          });
+          //this.carregarLotes();
         },
         error: (error: any) => {
-          this.spinner.hide();
-          this.toastr.error('Erro ao tentar carregar o evento.');
+          this.toastr.error('Erro ao tentar carregar o evento.','Erro');
           console.error(error);
-        },
-        complete: () => this.spinner.hide(),
-      });
-
+        }
+      }).add(() => this.spinner.hide());
     }
+  }
+
+  //Execmplo de outra possibilidade para carregar o lote em um segundo acesso ao banco.
+  //Poderia ser utilizado caso o objeto pretendido não estivesse já como parte do evento por exemplo.
+  public carregarLotes(): void {
+    this.loteService.getLotesByEventoId(this.eventoId).subscribe(
+      (lotesRetorno: Lote[]) => {
+        lotesRetorno.forEach(lote => {
+          this.lotes.push(this.criarLote(lote));
+        });
+      },
+      (error: any) => {
+        this.toastr.error('Erro ao tentar carregar lotes.','Erro');
+        console.error(error);
+      }
+    ).add(() => this.spinner.hide());
   }
 
   ngOnInit(): void {
