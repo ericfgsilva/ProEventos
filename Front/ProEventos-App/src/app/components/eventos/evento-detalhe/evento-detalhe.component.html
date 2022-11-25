@@ -152,7 +152,7 @@
               </div>
               <div class="col-md-1 pb-2 align-self-end ml-auto">
                 <legend class="d-flex justify-content-between">
-                  <button (click)="excluirLote(i)" class="border-0 p-2 ps-3 pe-3 btn btn-sm btn-outline-danger d-flex"
+                  <button (click)="removerLote(template, i)" class="border-0 p-2 ps-3 pe-3 btn btn-sm btn-outline-danger d-flex"
                     tooltip="Excluir Lote"
                     [adaptivePosition]="false"
                     [delay]="500"
@@ -191,3 +191,17 @@
 </div>
 </div>
 <br>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">Atenção</h3>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Tem certeza que excluir o lote {{this.loteAtual.nome}} ?</p>
+    <button type="button" class="btn btn-danger" (click)="confirmarDeleteLote()" >Sim</button>
+    <button type="button" class="btn btn-default" (click)="abortarDeleteLote()" >Não</button>
+  </div>
+</ng-template>
