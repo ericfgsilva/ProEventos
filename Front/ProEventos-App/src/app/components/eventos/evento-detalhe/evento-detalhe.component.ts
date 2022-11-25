@@ -167,21 +167,19 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public salvarLote(): void{
-    this.spinner.show();
-    if(this.form.controls.lotes.valid){
-      this.loteService.saveLotes(this.eventoId, this.form.value.lotes)
+    if(this.form.lotes.valid){
+      this.spinner.show();
+      this.loteService.saveLotes(this.eventoId, this.form.lotes.value)
         .subscribe(
           () => {
             this.toastr.success('Lotes salvos com sucesso!','Sucesso');
-            this.lotes.reset();
           },
           (error: any) => {
-            console.error(error);
             this.toastr.error('Erro ao salvar lotes.', 'Erro');
+            console.error(error);
           }
         ).add(() => this.spinner.hide());
     }
   }
-
 
 }
