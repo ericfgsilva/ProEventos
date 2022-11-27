@@ -49,7 +49,7 @@ export class EventoDetalheComponent implements OnInit {
     return this.form.controls;
   }
 
-  get bsConfig(): any {
+  get bsConfigDateTime(): any {
     return {
       adaptivePosition: true,
       isAnimated: true,
@@ -149,7 +149,9 @@ export class EventoDetalheComponent implements OnInit {
 
 
   public adicionarLote(): void{
+    this.lotes.controls.reverse();
     this.lotes.push(this.criarLote({id: 0} as Lote));
+    this.lotes.controls.reverse();
   }
 
   public criarLote(lote: Lote): FormGroup{
@@ -211,9 +213,8 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public salvarEvento(): void{
-    this.spinner.show();
-
     if(this.form.valid){
+      this.spinner.show();
       if(this.estadoSalvar === 'post'){
         this.evento = {...this.form.value};
         this.eventoService.post(this.evento).subscribe({
