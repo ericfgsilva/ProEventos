@@ -248,6 +248,7 @@ export class EventoDetalheComponent implements OnInit {
         .subscribe(
           () => {
             this.toastr.success('Lotes salvos com sucesso!','Sucesso');
+            this.router.navigate([`eventos/detalhe/${this.evento.id}`]);
           },
           (error: any) => {
             this.toastr.error('Erro ao salvar lotes.', 'Erro');
@@ -275,7 +276,11 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   loteValido(lote: Lote): boolean{
-    return lote.nome !== '' && lote.quantidade > 0 && lote.preco >= 0 && lote.dataInicio !== null && lote.dataFim !== null;
+    return lote.nome !== ''
+           && lote.quantidade > 0
+           && lote.preco >= 0
+           && lote.dataInicio !== null
+           && lote.dataFim !== null;
   }
 
 }
