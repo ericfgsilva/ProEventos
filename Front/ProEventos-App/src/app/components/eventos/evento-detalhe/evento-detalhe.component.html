@@ -136,6 +136,9 @@
       <div [formGroup]="form" class="col">
         <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i=index">
           <fieldset [formGroupName]="i" class="form-group">
+            <legend class="d-flex justify-content-between capitalize">
+              {{retornaTituloLote(lotes.get(i+'.nome')?.value)}}
+            </legend>
             <div class="row">
               <div class="form-group col-md-4">
                 <label>Nome</label>
