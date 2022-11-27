@@ -150,21 +150,10 @@
                 <input [ngClass]="cssValidator(lotes.get(i+'.quantidade'))"
                 type="text" class="form-control" formControlName="quantidade" placeholder="000">
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-4">
                 <label>Preço</label>
                 <input [ngClass]="cssValidator(lotes.get(i+'.preco'))"
                 type="text" currencyMask class="form-control" formControlName="preco" placeholder="R$ 0,00">
-              </div>
-              <div class="col-md-1 pb-2 align-self-end ml-auto">
-                <legend class="d-flex justify-content-between">
-                  <button (click)="removerLote(template, i)" class="border-0 p-2 ps-3 pe-3 btn btn-sm btn-outline-danger d-flex"
-                    tooltip="Excluir Lote"
-                    [adaptivePosition]="false"
-                    [delay]="500"
-                    placement="left">
-                    <em class="fa pe-1 fa-trash my-1"></em>
-                  </button>
-                </legend>
               </div>
               <div class="form-group col-md-4">
                 <label>Data Início</label>
@@ -182,6 +171,28 @@
                 bsDatepicker
                 [bsConfig]="bsConfigData">
               </div>
+              <div class="col-md-4 pb-1 align-self-end ml-auto">
+                <legend class="d-flex justify-content-between">
+                  <div class="btn-group">
+                    <button [disabled]="!loteValido(lotes.value[i])" (click)="salvarLote(lotes.value[i])" class="border-0 ps-3 pe-3 btn btn-sm btn-outline-primary d-flex"
+                      tooltip="Salvar Lote {{lotes.get(i+'.nome')?.value}}"
+                      [adaptivePosition]="false"
+                      [delay]="500"
+                      placement="left"
+                      type="submit">
+                      <em class="fa p-2 fa-save my-1"></em>
+                    </button>
+                    <button (click)="removerLote(template, i)" class="border-0 ps-3 pe-3 btn btn-sm btn-outline-danger d-flex"
+                      tooltip="Excluir Lote"
+                      [adaptivePosition]="false"
+                      [delay]="500"
+                      placement="left"
+                      type="submit">
+                      <em class="fa p-2 fa-trash my-1"></em>
+                    </button>
+                  </div>
+                </legend>
+              </div>
             </div>
         </fieldset>
       </div>
@@ -194,7 +205,7 @@
     <button class="btn btn-outline-secondary mr-auto border">
       Cancelar Alteração
     </button>
-    <button [disabled]="!f.lotes.valid" (click)="salvarLote()" class="btn btn-success">
+    <button [disabled]="!f.lotes.valid" (click)="salvarLotes()" class="btn btn-success">
       Salvar Lotes
     </button>
   </div>

@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -71,8 +72,20 @@ defineLocale('pt-br', ptBrLocale);
       preventDuplicates: true,
       progressBar: true,
     }),
-    NgxSpinnerModule,
     BsDatepickerModule.forRoot(),
+    NgxSpinnerModule,
+    NgxCurrencyModule.forRoot({
+      align: 'left',
+      allowNegative: false,
+      allowZero: true,
+      decimal: ',',
+      precision: 2,
+      prefix: 'R$ ',
+      suffix: '',
+      thousands: '.',
+      nullable: true,
+      inputMode: CurrencyMaskInputMode.FINANCIAL
+    })
   ],
   providers: [
     EventoService,

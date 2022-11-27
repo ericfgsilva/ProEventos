@@ -8,15 +8,16 @@ import { AbstractControl,
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxCurrencyModule } from "ngx-currency";
 
 import { EventoService } from '@app/services/evento.service';
 import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
 import { LoteService } from '@app/services/lote.service';
 import { DatePipe } from '@angular/common';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -240,7 +241,7 @@ export class EventoDetalheComponent implements OnInit {
     }
   }
 
-  public salvarLote(): void{
+  public salvarLotes(): void{
     if(this.f.lotes.valid){
       this.spinner.show();
       this.loteService.saveLotes(this.eventoId, this.f.lotes.value)
@@ -254,6 +255,27 @@ export class EventoDetalheComponent implements OnInit {
           }
         ).add(() => this.spinner.hide());
     }
+  }
+
+  public salvarLote(lote: Lote): void{
+    if(this.loteValido(lote)){
+      this.spinner.show();
+      this.loteService.saveLotes(this.eventoId, [lote])
+        .subscribe(
+          () => {
+            this.toastr.success('Lote salvo com sucesso!','Sucesso');
+            this.router.navigate([`eventos/detalhe/${this.evento.id}`]);
+          },
+          (error: any) => {
+            this.toastr.error('Erro ao salvar lote.', 'Erro');
+            console.error(error);
+          }
+        ).add(() => this.spinner.hide());
+    }
+  }
+
+  loteValido(lote: Lote): boolean{
+    return lote.nome !== '' && lote.quantidade > 0 && lote.preco >= 0 && lote.dataInicio !== null && lote.dataFim !== null;
   }
 
 }
