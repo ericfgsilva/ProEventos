@@ -35,7 +35,6 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 
-
 defineLocale('pt-br', ptBrLocale);
 
 @NgModule({

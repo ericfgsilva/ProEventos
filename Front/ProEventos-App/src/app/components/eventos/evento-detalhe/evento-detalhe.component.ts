@@ -29,7 +29,7 @@ export class EventoDetalheComponent implements OnInit {
   modalRef?: BsModalRef;
   evento = {} as Evento;
   loteAtual = {id: 0, nome: '', indice: 0};
-  formulario!: FormGroup;
+  form!: FormGroup;
   estadoSalvar = 'post';
 
   get eventoId(): number{
@@ -42,17 +42,28 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   get lotes(): FormArray{
-    return this.formulario.get('lotes') as FormArray;
+    return this.form.get('lotes') as FormArray;
   }
 
-  get form(): any {
-    return this.formulario.controls;
+  get f(): any {
+    return this.form.controls;
   }
 
   get bsConfig(): any {
     return {
       adaptivePosition: true,
+      isAnimated: true,
       dateInputFormat: 'DD/MM/YYYY HH:mm',
+      containerClass: 'theme-default',
+      showWeekNumbers: false
+    };
+  }
+
+  get bsConfigData(): any {
+    return {
+      adaptivePosition: true,
+      isAnimated: true,
+      dateInputFormat: 'DD/MM/YYYY',
       containerClass: 'theme-default',
       showWeekNumbers: false
     };
@@ -81,13 +92,13 @@ export class EventoDetalheComponent implements OnInit {
                                       //conversão do parâmetro eventoIdParam texto para number
       this.eventoService.getEventoById(this.eventoId).subscribe({
         next: (evento: Evento) => {
-          this.evento = {...evento}; //... atribui todas as propriedades de evento a this.evento
-          this.formulario.patchValue(this.evento);
+          this.evento = {...evento};
           //esta forma é mais eficaz em relação ao carregarLotes() uma vez que o objeto evento já retorna a lista de lotes
           this.evento.lotes.forEach(lote => {
             this.lotes.push(this.criarLote(lote));
           });
           //this.carregarLotes();
+          this.form.patchValue(this.evento);
         },
         error: (error: any) => {
           this.toastr.error('Erro ao tentar carregar o evento.','Erro');
@@ -119,7 +130,7 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public validation(): void{
-    this.formulario = this.fb.group({
+    this.form = this.fb.group({
       tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       local: ['', Validators.required],
       dataEvento: ['', Validators.required],
@@ -131,6 +142,11 @@ export class EventoDetalheComponent implements OnInit {
       lotes: this.fb.array([])
     })
   }
+
+  public mudarValorData(value: Date, indice: number, campo: string): void{
+    this.lotes.value[indice][campo] = value;
+  }
+
 
   public adicionarLote(): void{
     this.lotes.push(this.criarLote({id: 0} as Lote));
@@ -182,8 +198,12 @@ export class EventoDetalheComponent implements OnInit {
     this.modalRef?.hide();
   }
 
+  public retornaTituloLote(nome: string): string {
+    return nome === null || nome === '' ? 'Nome do lote' : nome;
+  }
+
   public resetForm(): void {
-    this.formulario.reset();
+    this.form.reset();
   }
 
   public cssValidator(campoForm: FormControl | AbstractControl | null): any{
@@ -193,9 +213,9 @@ export class EventoDetalheComponent implements OnInit {
   public salvarEvento(): void{
     this.spinner.show();
 
-    if(this.formulario.valid){
+    if(this.form.valid){
       if(this.estadoSalvar === 'post'){
-        this.evento = {...this.formulario.value};
+        this.evento = {...this.form.value};
         this.eventoService.post(this.evento).subscribe({
           next: (eventoRetorno: Evento) => {
             this.toastr.success('Evento criado com sucesso!', 'Sucesso');
@@ -207,7 +227,7 @@ export class EventoDetalheComponent implements OnInit {
           }
         }).add(() => this.spinner.hide());
       }else{
-        this.evento = {id: this.evento.id, ...this.formulario.value};
+        this.evento = {id: this.evento.id, ...this.form.value};
         this.eventoService.put(this.evento).subscribe({
           next: (result: any) => {this.toastr.success('Evento salvo com sucesso!', 'Sucesso');},
           error: (error: any) => {
@@ -220,9 +240,9 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public salvarLote(): void{
-    if(this.form.lotes.valid){
+    if(this.f.lotes.valid){
       this.spinner.show();
-      this.loteService.saveLotes(this.eventoId, this.form.lotes.value)
+      this.loteService.saveLotes(this.eventoId, this.f.lotes.value)
         .subscribe(
           () => {
             this.toastr.success('Lotes salvos com sucesso!','Sucesso');
