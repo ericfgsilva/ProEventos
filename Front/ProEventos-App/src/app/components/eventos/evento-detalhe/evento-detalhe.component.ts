@@ -11,7 +11,6 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxCurrencyModule } from "ngx-currency";
 
 import { EventoService } from '@app/services/evento.service';
 import { Evento } from '@app/models/Evento';
@@ -32,6 +31,8 @@ export class EventoDetalheComponent implements OnInit {
   loteAtual = {id: 0, nome: '', indice: 0};
   form!: FormGroup;
   estadoSalvar = 'post';
+  imagemURL = 'assets/img/upload.png';
+  file!: File;
 
   get eventoId(): number{
   const eventoIdParam = this.activatedRouter.snapshot.paramMap.get('id');
@@ -283,4 +284,29 @@ export class EventoDetalheComponent implements OnInit {
            && lote.dataFim !== null;
   }
 
+  onFileChange(ev: any): void{
+    const reader = new FileReader();
+
+    reader.onload = (event: any) => this.imagemURL = event.target.result;
+
+    this.file = ev.target.files[0];
+    reader.readAsDataURL(this.file);
+
+    this.uploadImagem();
+  }
+
+  uploadImagem(): void{
+    this.spinner.show();
+    this.eventoService.postUpload(this.eventoId, this.file).subscribe(
+      () => {
+        this.carregarEvento();
+        this.toastr.success('Imagem atualizada com sucesso.', 'Sucesso');
+      },
+      (error: any) => {
+        this.toastr.error('Erro ao tentar fazer upload da imagem.', 'Erro');
+        console.log(error);
+      }
+    ).add(() => this.spinner.hide());
+
+  }
 }
