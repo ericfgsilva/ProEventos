@@ -21,12 +21,9 @@ namespace ProEventos.Application.Dtos
         [Range(1, 120000, ErrorMessage = "O valor no campo {0} deve estar entre 1 e 120000.")]
         public int QtdPessoas { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         [RegularExpression(@".*\.(gif|jpe?g|bmp|png)$", ErrorMessage = "Os formatos aceitos são: .gif | .jpeg | .bmp | .png | .jpg")]
         public string ImageURL { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório."), 
-         StringLength(200, MinimumLength = 3, ErrorMessage = "Intervalo permitido é de 3 a 200 caracteres.")]
         public string ImageAlt { get; set; }
         
         [Required(ErrorMessage = "O campo {0} é obrigatório."), 

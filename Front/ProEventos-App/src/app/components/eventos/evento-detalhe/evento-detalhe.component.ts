@@ -17,6 +17,7 @@ import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
 import { LoteService } from '@app/services/lote.service';
 import { DatePipe } from '@angular/common';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -101,6 +102,9 @@ export class EventoDetalheComponent implements OnInit {
           });
           //this.carregarLotes();
           this.form.patchValue(this.evento);
+          if(this.evento.imageURL !== ''){
+            this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imageURL;
+          }
         },
         error: (error: any) => {
           this.toastr.error('Erro ao tentar carregar o evento.','Erro');
@@ -139,8 +143,10 @@ export class EventoDetalheComponent implements OnInit {
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      imageURL: ['', Validators.required],
-      imageAlt: ['', [Validators.required, Validators.minLength(10)]],
+      imageURL: [''],
+      imageAlt: this.modoEditar && this.imagemURL !== null
+                ? ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]]
+                : [''],
       lotes: this.fb.array([])
     })
   }

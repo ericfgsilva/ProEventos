@@ -23,7 +23,8 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group" [ngClass]="{'col-md-7': modoEditar, 'col-md-8': !modoEditar}">
+              <!-- <div class="form-group" [ngClass]="{'col-md-7': modoEditar, 'col-md-6': !modoEditar}"> -->
+              <div class="form-group col-md-7">
                 <label>Local</label>
                 <input title="local" type="text" class="form-control"
                 [ngClass]="cssValidator(f.local)"
@@ -34,7 +35,7 @@
               </div>
               <div class="form-group col-md-3">
                 <label>Data e Hora</label>
-                <input title="data e hora" type="datetime" class="form-control"
+                <input title="data e hora" type="text" class="form-control"
                 [ngClass]="cssValidator(f.dataEvento)"
                 value="{{evento.dataEvento}}"
                 bsDatepicker
@@ -44,7 +45,7 @@
                   data e hora é obrigatório.
                 </div>
               </div>
-              <div class="form-group" [ngClass]="{'col-md-2': modoEditar, 'col-md-1': !modoEditar}">
+              <div class="form-group col-md-2">
                 <label>Qtd Pessoas</label>
                 <input title="quantidade de pessoas" type="number" class="form-control"
                 [ngClass]="cssValidator(f.qtdPessoas)"
@@ -58,7 +59,7 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-md-2">
+              <div class="form-group col-md-3">
                 <label>Telefone</label>
                 <input title="telefone" type="text" class="form-control "
                 [ngClass]="cssValidator(f.telefone)"
@@ -67,7 +68,7 @@
                   telefone é obrigatório.
                 </div>
               </div>
-              <div class="form-group" [ngClass]="{'col-md-3': modoEditar, 'col-md-4': !modoEditar}">
+              <div class="form-group col-md-4">
                 <label>Email</label>
                 <input title="e-mail" type="email" class="form-control"
                 [ngClass]="cssValidator(f.email)"
@@ -79,16 +80,8 @@
                   e-mail inválido.
                 </div>
               </div>
-              <div class="form-group" [ngClass]="{'col-md-3': modoEditar, 'col-md-2': !modoEditar}">
-                <label>Imagem</label>
-                <input title="Imagem" type="text" class="form-control"
-                [ngClass]="cssValidator(f.imageURL)"
-                formControlName="imageURL" placeholder="imagem" [(ngModel)]="evento.imageURL">
-                <div *ngIf="f.imageURL?.errors?.required" class="invalid-feedback">
-                  imagem é obrigatória.
-                </div>
-              </div>
-              <div class="form-group col-md-4">
+
+              <div *ngIf="modoEditar && f.imagemURL?.length > 0" class="form-group col-md-5">
                 <label>Descrição da imagem</label>
                 <input title="Descrição da Imagem" type="text" class="form-control"
                 [ngClass]="cssValidator(f.imageAlt)"
@@ -100,6 +93,7 @@
                   descrição deve ter no mínimo 10 caracteres.
                 </div>
               </div>
+
             </div>
           </div>
           <div class="card-footer">
@@ -107,7 +101,10 @@
               <button type="reset" class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
                 Cancelar Alteração
               </button>
-              <button type="submit" class="btn btn-success" [disabled]="!form.valid" (click)="salvarEvento()">
+              <button type="submit" class="btn btn-success" [disabled]="!form.valid && !modoEditar
+                                                                     || !form.valid && modoEditar && f.imagemURL?.length === 0"
+
+                (click)="salvarEvento()">
                 Salvar Evento
               </button>
             </div>

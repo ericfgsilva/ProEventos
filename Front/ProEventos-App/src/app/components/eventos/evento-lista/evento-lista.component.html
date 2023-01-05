@@ -27,7 +27,7 @@
       <tr>
         <th class="d-none d-md-table-cell">
           <button class="btn btn-outline-light btn-sm"
-            (click)="mostrarImagem()">
+            (click)="alterarImagem()">
             <em class="{{exibirImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></em>
             {{exibirImage ? "Exibir" : "Ocultar"}}
           </button>
@@ -46,7 +46,7 @@
         <td class="d-none d-md-table-cell">
           <img [collapse]="exibirImage"
               [isAnimated]="true"
-              src="/assets/{{evento.imageURL}}"
+              src="mostrarImagem(evento.imageURL)"
               alt="{{evento.imageAlt}}"
               [style.width.px]="larguraImg"
               [style.margin.px]="margemImg"
@@ -58,7 +58,7 @@
         <td>{{evento.dataEvento}}</td>
         <!--<td>{{evento.dataEvento | DateTimeFormat_Pipe}}</td>-->
         <td class="d-none d-md-table-cell">{{evento.qtdPessoas}}</td>
-        <td class="d-none d-md-table-cell">{{evento.lotes[0]?.nome}}</td>
+        <td class="d-none d-md-table-cell">{{evento.lotes[0].nome}}</td>
         <td>
           <button type="button" class="btn btn-danger btn-md" tooltip="Excluir evento" (click)="abrirModal($event, evento.id, template)">
             <em class="fa fa-trash"></em>
