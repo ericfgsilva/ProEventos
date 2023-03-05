@@ -85,7 +85,7 @@ export class EventoListaComponent implements OnInit {
     this.eventoService.getEventos().subscribe(observer);
   }
 
-  abrirModal(event: any, eventoId: number, template: TemplateRef<any>): void {
+  abrirModal(event: any, template: TemplateRef<any>, eventoId: number): void {
     event.stopPropagation();
     this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, this.config);

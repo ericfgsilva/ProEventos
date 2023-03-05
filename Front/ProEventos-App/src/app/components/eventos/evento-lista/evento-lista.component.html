@@ -46,7 +46,7 @@
         <td class="d-none d-md-table-cell">
           <img [collapse]="exibirImage"
               [isAnimated]="true"
-              src="mostrarImagem(evento.imageURL)"
+              [src]="mostrarImagem(evento.imageURL)"
               alt="{{evento.imageAlt}}"
               [style.width.px]="larguraImg"
               [style.margin.px]="margemImg"
@@ -60,7 +60,7 @@
         <td class="d-none d-md-table-cell">{{evento.qtdPessoas}}</td>
         <td class="d-none d-md-table-cell">{{evento.lotes[0].nome}}</td>
         <td>
-          <button type="button" class="btn btn-danger btn-md" tooltip="Excluir evento" (click)="abrirModal($event, evento.id, template)">
+          <button type="button" class="btn btn-danger btn-md" tooltip="Excluir evento" (click)="abrirModal($event, template, evento.id)">
             <em class="fa fa-trash"></em>
           </button>
         </td>
@@ -76,6 +76,9 @@
   </table>
 
 </div>
+
+
+
 <ng-template #template>
   <div class="modal-header">
     <h3 class="modal-title pull-left">Atenção</h3>
@@ -84,7 +87,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Tem certeza que excluir o evento de código {{this.eventoId}} ?</p>
+    <p>Tem certeza que deseja excluir o evento de código {{this.eventoId}}?</p>
     <button type="button" class="btn btn-danger" (click)="confirmar()" >Sim</button>
     <button type="button" class="btn btn-default" (click)="abortar()" >Não</button>
   </div>

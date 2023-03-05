@@ -141,7 +141,7 @@ export class EventoDetalheComponent implements OnInit {
       local: ['', Validators.required],
       dataEvento: ['', Validators.required],
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
-      telefone: ['', Validators.required],
+      telefone: ['', [Validators.required, Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
       imageURL: [''],
       imageAlt: this.modoEditar && this.imagemURL !== null

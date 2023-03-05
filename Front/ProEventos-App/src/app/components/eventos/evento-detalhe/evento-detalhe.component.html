@@ -10,7 +10,7 @@
                 <label>Tema</label>
                 <input type="text" class="form-control"
                 [ngClass]="cssValidator(f.tema)"
-                formControlName="tema" placeholder="Insira o Tema">
+                formControlName="tema" placeholder="Insira o Tema " [(ngModel)]="evento.tema">
                 <div *ngIf="f.tema?.errors?.required" class="invalid-feedback">
                   tema é obrigatório.
                 </div>
@@ -66,6 +66,9 @@
                 formControlName="telefone" placeholder="(00) 90000-0000" [(ngModel)]="evento.telefone">
                 <div *ngIf="f.telefone?.errors?.required" class="invalid-feedback">
                   telefone é obrigatório.
+                </div>
+                <div *ngIf="f.telefone?.errors?.maxlength" class="invalid-feedback">
+                  tamanho máximo é 11 dígitos.
                 </div>
               </div>
               <div class="form-group col-md-4">
@@ -260,6 +263,7 @@
 
 </div>
 
+
 <ng-template #template>
   <div class="modal-header">
     <h3 class="modal-title pull-left">Atenção</h3>
@@ -268,7 +272,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Tem certeza que excluir o lote {{this.loteAtual.nome}} ?</p>
+    <p>Tem certeza que excluir o lote {{this.loteAtual.nome}}?</p>
     <button type="button" class="btn btn-danger" (click)="confirmarDeleteLote()" >Sim</button>
     <button type="button" class="btn btn-default" (click)="abortarDeleteLote()" >Não</button>
   </div>
