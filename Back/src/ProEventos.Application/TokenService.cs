@@ -32,11 +32,12 @@ namespace ProEventos.Application
         public async Task<string> CreateToken(UserUpdateDto userUpdateDto)
         {
             var user = _mapper.Map<User>(userUpdateDto);
-
+            //boa opção para levar informações não sensíveis de checagem para o front logo na autenticação, dentro do bearer token, ex: rules.
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email)
             };
 
             var roles = await _userManager.GetRolesAsync(user);
