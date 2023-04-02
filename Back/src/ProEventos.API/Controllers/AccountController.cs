@@ -1,9 +1,11 @@
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.API.Extensions;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
 using ProEventos.Domain.Identity;
@@ -25,11 +27,12 @@ namespace ProEventos.API.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpGet("GetUser/{userName}")]
-        public async Task<IActionResult> GetUser(string userName)
+        [HttpGet("GetUser")]
+        public async Task<IActionResult> GetUser()
         {
             try
             {
+                var userName = User.GetUserName();
                 var user = await _accountService.GetUserByUserNameAsync(userName);
                 return Ok(user);
             }
@@ -58,7 +61,27 @@ namespace ProEventos.API.Controllers
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar registrar usuário. Erro: {ex.Message}");
+                    $"Erro ao tentar registrar o usuário. Erro: {ex.Message}");
+            }
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
+        {
+            try
+            {
+                var user = await _accountService.GetUserByUserNameAsync(User.GetUserName());
+                if(user == null) return Unauthorized("Usuário inválido.");
+
+                var userReturn = await _accountService.UpdateAccount(userUpdateDto);
+                if(userReturn == null) return NoContent();
+                
+                return Ok(userReturn);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar atualizar o usuário. Erro: {ex.Message}");
             }
         }
 
@@ -84,7 +107,7 @@ namespace ProEventos.API.Controllers
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar registrar usuário. Erro: {ex.Message}");
+                    $"Erro ao tentar realizar login. Erro: {ex.Message}");
             }
         }
     }

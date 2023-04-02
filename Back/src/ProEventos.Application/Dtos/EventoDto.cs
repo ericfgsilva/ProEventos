@@ -10,7 +10,6 @@ namespace ProEventos.Application.Dtos
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public string Local { get; set; }
         
-        [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public string DataEvento { get; set; }
         
         [Required(ErrorMessage = "O campo {0} é obrigatório."),
@@ -35,6 +34,9 @@ namespace ProEventos.Application.Dtos
          Required(ErrorMessage = "O campo {0} é obrigatório."), 
          EmailAddress(ErrorMessage = "O {0} é inválido.")]
         public string Email { get; set; }
+        public string UserId { get; set; }
+
+        public UserDto UserDto { get; set; }
         
         public IEnumerable<LoteDto> Lotes { get; set; }
         public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
