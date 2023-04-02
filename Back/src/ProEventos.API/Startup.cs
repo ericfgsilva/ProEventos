@@ -146,7 +146,8 @@ namespace ProEventos.API
 
             app.UseCors(x => x.AllowAnyHeader()
                               .AllowAnyMethod()
-                              .AllowAnyOrigin());
+                              .AllowAnyOrigin()
+                        );
 
             app.UseStaticFiles(new StaticFileOptions(){
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
