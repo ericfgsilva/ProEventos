@@ -64,8 +64,11 @@ namespace ProEventos.Application
         {
             try
             {
-                var user = await _userPersist.GetUserByUserNameAsync(userName.ToLower());
-                return user == null ? null : _mapper.Map<UserUpdateDto>(user);
+                var user = await _userPersist.GetUserByUserNameAsync(userName);
+                if(user == null) 
+                    return null;
+                else
+                    return _mapper.Map<UserUpdateDto>(user);
             }
             catch (System.Exception ex)
             {

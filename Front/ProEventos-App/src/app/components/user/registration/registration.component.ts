@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidatorField } from '@app/helpers/ValidatorField';
+import { User } from '@app/models/identity/User';
+import { AccountService } from '@app/services/account.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -9,13 +13,17 @@ import { ValidatorField } from '@app/helpers/ValidatorField';
 })
 export class RegistrationComponent implements OnInit {
 
+  user = {} as User;
   formulario!: FormGroup;
 
   get form(): any {
     return this.formulario.controls;
   }
 
-  constructor(public fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private accountService: AccountService,
+              private router: Router,
+              private toaster: ToastrService) { }
 
   ngOnInit(): void {
     this.validation();
@@ -24,16 +32,16 @@ export class RegistrationComponent implements OnInit {
   private validation(): void{
 
     const formOptions: AbstractControlOptions = {
-      validators: ValidatorField.MustMatch('senha', 'confirmeSenha')
+      validators: ValidatorField.MustMatch('password', 'confirmePassword')
     };
 
     this.formulario = this.fb.group({
       primeiroNome: ['', [Validators.required, Validators.minLength(2)]],
       ultimoNome: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      usuario: ['', [Validators.required, Validators.minLength(4)]],
-      senha: ['', [Validators.required, Validators.minLength(6)]],
-      confirmeSenha: ['', Validators.required],
+      userName: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmePassword: ['', Validators.required]
     }, formOptions);
   }
 
@@ -45,5 +53,12 @@ export class RegistrationComponent implements OnInit {
     return {'is-invalid': campoForm.errors && campoForm.touched};
   }
 
+  register(): void{
+    this.user = { ...this.formulario.value };
+    this.accountService.register(this.user).subscribe(
+      () => this.router.navigateByUrl('/dashboard'),
+      (error: any) => this.toaster.error(error.error)
+    )
+  }
 
 }

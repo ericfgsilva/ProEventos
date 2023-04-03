@@ -10,7 +10,7 @@
       <p>Form valid: {{formulario.status | json}}</p> -->
 	<div class="col-md-6">
 
-		<form [formGroup]="formulario" class="p-1">
+		<form [formGroup]="formulario" class="p-1" (ngSubmit)="register()">
       <div class="pb-2 d-block d-md-none">
         <h3 class="border-bottom">Cadastro de Usuário</h3>
       </div>
@@ -55,53 +55,62 @@
       <div class="form-group">
         <label>Usuario</label>
         <input class="form-control" type="text"
-        [ngClass]="cssValidator(form.usuario)"
-        formControlName="usuario" placeholder="Insira o nome de Usuário" />
-        <div *ngIf="form.usuario?.errors?.required" class="invalid-feedback">
+        [ngClass]="cssValidator(form.userName)"
+        formControlName="userName" placeholder="Insira o nome de Usuário" />
+        <div *ngIf="form.userName?.errors?.required" class="invalid-feedback">
           usuário é obrigatório.
         </div>
-        <div *ngIf="form.usuario?.errors?.minlength" class="invalid-feedback">
-          nome de usuário deve ser maior.
+        <div *ngIf="form.userName?.errors?.minlength" class="invalid-feedback">
+          nome de usuário deve ter no mínimo 4 caracteres.
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label>Senha</label>
           <input class="form-control" type="password"
-          [ngClass]="cssValidator(form.senha)"
-          formControlName="senha" placeholder="Digite uma Senha" />
-          <div *ngIf="form.senha?.errors?.required" class="invalid-feedback">
+          [ngClass]="cssValidator(form.password)"
+          formControlName="password" placeholder="Digite uma Senha" />
+          <div *ngIf="form.password?.errors?.required" class="invalid-feedback">
             senha é obrigatória.
           </div>
-          <div *ngIf="form.senha?.errors?.minlength" class="invalid-feedback">
-            senha deve ter mais de 6 caracteres.
+          <div *ngIf="form.password?.errors?.minlength" class="invalid-feedback">
+            senha deve ter no mínimo 6 caracteres.
           </div>
         </div>
         <div class="form-group col-sm-6">
           <label>Confirmar Senha</label>
           <input class="form-control" type="password"
-          [ngClass]="cssValidator(form.confirmeSenha)"
-          formControlName="confirmeSenha" placeholder="Confirme a Senha" />
-          <div *ngIf="form.confirmeSenha?.errors?.required" class="invalid-feedback">
+          [ngClass]="cssValidator(form.confirmePassword)"
+          formControlName="confirmePassword" placeholder="Confirme a Senha" />
+          <div *ngIf="form.confirmePassword?.errors?.required" class="invalid-feedback">
             confirmação de senha é obrigatória.
           </div>
-          <div *ngIf="form.confirmeSenha?.errors?.minlength" class="invalid-feedback">
+          <div *ngIf="form.confirmePassword?.errors?.minlength" class="invalid-feedback">
             senha deve ter mais de 6 caracteres.
           </div>
-          <div *ngIf="form.confirmeSenha?.errors?.mustMatch" class="invalid-feedback">
+          <div *ngIf="form.confirmePassword?.errors?.mustMatch" class="invalid-feedback">
             senhas devem ser iguais.
           </div>
         </div>
       </div>
-      <div class="form-row p-1 mb-3">
+      <div class="form-group form-row p-1 mb-3">
         <div class="custom-control custom-checkbox">
-          <input title="aceite de termo de uso" type="checkbox" class="custom-control-input" id="customCheck1">
-          <label for="customCheck1" class="custom-control-label">Eu concordo com os <a href="#">Termos de Uso</a>.</label>
+          <input
+            title="aceite de termo de uso"
+            formControlName="termo"
+            type="checkbox"
+            class="custom-control-input"
+            id="termo">
+          <label for="termo" class="custom-control-label">Eu concordo com os <a href="#">Termos de Uso</a>.</label>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-12">
-          <button type="submit" class="btn btn-lg btn-success btn-block px-5" [disabled]="!formulario.valid">
+          <button
+            type="submit"
+            class="btn btn-lg btn-success btn-block px-5"
+            type="submit"
+            [disabled]="!formulario.valid">
             Registar
           </button>
         </div>

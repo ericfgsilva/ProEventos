@@ -22,7 +22,7 @@ namespace ProEventos.Persistence
 
         public async Task<User> GetUserByIdAsync(Guid id) => await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
 
-        public async Task<User> GetUserByUserNameAsync(string userName) => await _context.Users.SingleOrDefaultAsync(u => u.UserName == userName.ToLower());
+        public async Task<User> GetUserByUserNameAsync(string userName) => await _context.Users.SingleOrDefaultAsync(u => u.UserName.ToLower() == userName.ToLower());
 
         
 
