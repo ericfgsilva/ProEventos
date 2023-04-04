@@ -23,6 +23,8 @@ const routes: Routes = [
       { path: 'registration', component: RegistrationComponent},
     ]
   },
+  { path: '', redirectTo: 'user/login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'user/login', pathMatch: 'full' },
   {
     path: 'user/perfil', component: PerfilComponent
   },
@@ -37,9 +39,7 @@ const routes: Routes = [
   },
   { path: 'dashboard', component: DashboardComponent},
   { path: 'palestrantes', component: PalestrantesComponent},
-  { path: 'contatos', component: ContatosComponent},
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
+  { path: 'contatos', component: ContatosComponent}
 ];
 
 @NgModule({

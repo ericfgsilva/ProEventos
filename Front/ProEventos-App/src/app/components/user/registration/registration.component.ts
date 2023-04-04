@@ -5,6 +5,7 @@ import { User } from '@app/models/identity/User';
 import { AccountService } from '@app/services/account.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registration',
@@ -23,6 +24,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private accountService: AccountService,
               private router: Router,
+              private spinner: NgxSpinnerService,
               private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -54,11 +56,17 @@ export class RegistrationComponent implements OnInit {
   }
 
   register(): void{
-    this.user = { ...this.formulario.value };
-    this.accountService.register(this.user).subscribe(
-      () => this.router.navigateByUrl('/dashboard'),
-      (error: any) => this.toaster.error(error.error)
-    )
+    if(this.formulario.valid){
+      this.spinner.show();
+      this.user = { ...this.formulario.value };
+      this.accountService.register(this.user).subscribe(
+        () => {
+          this.router.navigateByUrl('/user/login');
+          this.toaster.success(`Usuário ${this.user.userName} registrado com sucesso`);
+        },
+        (error: any) => this.toaster.error(error.error)
+      ).add(() => this.spinner.hide());
+    }
   }
 
 }
