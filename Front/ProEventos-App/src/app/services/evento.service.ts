@@ -7,7 +7,11 @@ import { Evento } from '../models/Evento';
 @Injectable()
 export class EventoService {
   baseURL = environment.apiURL + 'api/eventos';
-  tokenHeader = new HttpHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2YWVlNWJlMS1kOTJhLTQxNDktOTk3Zi00ZjA1MGMyZDY0ZmMiLCJ1bmlxdWVfbmFtZSI6ImVyaWMiLCJuYmYiOjE2ODA0NjE2ODksImV4cCI6MTY4MDU0ODA4OSwiaWF0IjoxNjgwNDYxNjg5fQ.-7zl8j5IsKcUZ3Oy3dchBovfNLBTihSqtomyAueEYK_xrwWjwrVmb0SjmeNHdV42hzMCstgMoM0PxmxQq0-tew'});
+
+  user = localStorage.getItem('user');
+  tokenHeader = new HttpHeaders({
+    'Authorization': this.user !== null ? `Bearer ${JSON.parse(this.user).token}` : ''
+  });
 
   constructor(private http: HttpClient) { }
 
@@ -19,13 +23,13 @@ export class EventoService {
 
   public getEventosByTema(tema: string): Observable<Evento[]>{
     return this.http
-                .get<Evento[]>(`${this.baseURL}/tema/${tema}`)
+                .get<Evento[]>(`${this.baseURL}/tema/${tema}`, { headers: this.tokenHeader })
                 .pipe(take(1));
   }
 
   public getEventoById(id: number): Observable<Evento>{
     return this.http
-                .get<Evento>(`${this.baseURL}/${id}`)
+                .get<Evento>(`${this.baseURL}/${id}`, { headers: this.tokenHeader })
                 .pipe(take(1));
   }
 
@@ -37,7 +41,7 @@ export class EventoService {
 
   public put(evento: Evento): Observable<Evento>{
     return this.http
-                .put<Evento>(`${this.baseURL}/${evento.id}`, evento)
+                .put<Evento>(`${this.baseURL}/${evento.id}`, evento, { headers: this.tokenHeader })
                 .pipe(take(1));
   }
 
@@ -53,7 +57,7 @@ export class EventoService {
     formData.append('file', fileToUpload);
 
     return this.http
-                .post<Evento>(`${this.baseURL}/upload-image/${eventoId}`, formData)
+                .post<Evento>(`${this.baseURL}/upload-image/${eventoId}`, formData, { headers: this.tokenHeader })
                 .pipe(take(1));
   }
 

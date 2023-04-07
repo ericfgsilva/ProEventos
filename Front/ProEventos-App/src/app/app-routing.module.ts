@@ -24,7 +24,6 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: 'user/login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'user/login', pathMatch: 'full' },
   {
     path: 'user/perfil', component: PerfilComponent
   },
@@ -37,6 +36,7 @@ const routes: Routes = [
       {path: 'lista', component: EventoListaComponent},
     ]
   },
+  { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent},
   { path: 'palestrantes', component: PalestrantesComponent},
   { path: 'contatos', component: ContatosComponent}

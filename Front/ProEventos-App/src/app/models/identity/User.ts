@@ -2,7 +2,7 @@ export class User {
     userName!: string;
     email!: string;
     password!: string;
-    primeiroNome!: string;
-    ultimoNome!: string;
+    firstName!: string;
+    lastName!: string;
     token!: string;
 }

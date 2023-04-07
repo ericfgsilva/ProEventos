@@ -18,24 +18,24 @@
         <div class="form-group col-sm-6">
           <label>Primeiro Nome</label>
           <input type="text" class="form-control"
-          [ngClass]="cssValidator(form.primeiroNome)"
-          formControlName="primeiroNome" placeholder="Insira o Primeiro nome" />
-          <div *ngIf="form.primeiroNome?.errors?.required" class="invalid-feedback">
+          [ngClass]="cssValidator(form.firstName)"
+          formControlName="firstName" placeholder="Insira o Primeiro nome" />
+          <div *ngIf="form.firstName?.errors?.required" class="invalid-feedback">
             primeiro nome é obrigatório.
           </div>
-          <div *ngIf="form.primeiroNome?.errors?.minlength" class="invalid-feedback">
+          <div *ngIf="form.firstName?.errors?.minlength" class="invalid-feedback">
             primeiro nome deve ser maior.
           </div>
         </div>
         <div class="form-group col-sm-6">
           <label>Último nome</label>
           <input type="text" class="form-control"
-          [ngClass]="cssValidator(form.ultimoNome)"
-          formControlName="ultimoNome" placeholder="Insira o Último nome" />
-          <div *ngIf="form.ultimoNome?.errors?.required" class="invalid-feedback">
+          [ngClass]="cssValidator(form.lastName)"
+          formControlName="lastName" placeholder="Insira o Último nome" />
+          <div *ngIf="form.lastName?.errors?.required" class="invalid-feedback">
             último nome é obrigatório.
           </div>
-          <div *ngIf="form.ultimoNome?.errors?.minlength" class="invalid-feedback">
+          <div *ngIf="form.lastName?.errors?.minlength" class="invalid-feedback">
             último nome deve ser maior.
           </div>
         </div>

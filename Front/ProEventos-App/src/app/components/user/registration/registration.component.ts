@@ -38,8 +38,8 @@ export class RegistrationComponent implements OnInit {
     };
 
     this.formulario = this.fb.group({
-      primeiroNome: ['', [Validators.required, Validators.minLength(2)]],
-      ultimoNome: ['', [Validators.required, Validators.minLength(2)]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       userName: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -64,7 +64,7 @@ export class RegistrationComponent implements OnInit {
           this.router.navigateByUrl('/user/login');
           this.toaster.success(`Usuário ${this.user.userName} registrado com sucesso`);
         },
-        (error: any) => this.toaster.error(error.error)
+        (error: any) => this.toaster.error(error, 'Erro')
       ).add(() => this.spinner.hide());
     }
   }

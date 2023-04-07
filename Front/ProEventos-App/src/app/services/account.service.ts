@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@app/models/identity/User';
 import { environment } from '@environments/environment';
@@ -12,6 +12,7 @@ export class AccountService {
   public currentUser$ = this.currentUserSource.asObservable();
 
   baseUrl = environment.apiURL + 'api/account/'
+
   constructor(private http: HttpClient) { }
 
   public login(model: any): Observable<void>{
@@ -39,8 +40,13 @@ export class AccountService {
   }
 
   logout(): void{
-    localStorage.removeItem('user');
-    this.currentUserSource.next(new User);
+    this.clearCurrentUser();
+  }
+
+  public clearCurrentUser(): void{
+    //localStorage.removeItem('user');
+    const newLocal = {} as User;
+    this.currentUserSource.next(newLocal);
     this.currentUserSource.complete();
   }
 
