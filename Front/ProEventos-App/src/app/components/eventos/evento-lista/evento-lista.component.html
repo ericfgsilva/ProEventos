@@ -28,8 +28,8 @@
         <th class="d-none d-md-table-cell">
           <button class="btn btn-outline-light btn-sm"
             (click)="alterarImagem()">
-            <em class="{{exibirImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></em>
-            {{exibirImage ? "Exibir" : "Ocultar"}}
+            <em class="{{!exibirImage ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></em>
+            {{!exibirImage ? "Exibir" : "Ocultar"}}
           </button>
         </th>
         <th>#</th>
@@ -42,9 +42,9 @@
       </tr>
     </thead>
     <tbody *ngIf="eventos && eventos.length">
-      <tr *ngFor="let evento of eventosFiltrados" (click)="detalheEvento(evento.id)" style="cursor: pointer;">
+      <tr *ngFor="let evento of eventos" (click)="detalheEvento(evento.id)" style="cursor: pointer;">
         <td class="d-none d-md-table-cell">
-          <img [collapse]="exibirImage"
+          <img [collapse]="!exibirImage"
               [isAnimated]="true"
               [src]="mostrarImagem(evento.imageURL)"
               alt="{{evento.imageAlt}}"

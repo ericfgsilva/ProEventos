@@ -14,19 +14,22 @@ import { environment } from '@environments/environment';
 })
 export class EventoListaComponent implements OnInit {
   modalRef?: BsModalRef;
+
+  public eventos: Evento[] = [];
+  public eventoId = 0;
+  public eventosFiltrados: Evento[] = [];
+
+  public larguraImg = 100;
+  public margemImg = 2;
+  public exibirImage = true;
+
+  private filtroListado = '';
+
   config = {
     backdrop: true,
     ignoreBackdropClick: true,
     class: 'modal-sm'
   };
-  public eventos: Evento[] = [];
-  public eventosFiltrados: Evento[] = [];
-  public eventoId = 0;
-
-  public larguraImg = 100;
-  public margemImg = 2;
-  public exibirImage = true;
-  private filtroListado = '';
 
   public get filtroLista(): string {
     return this.filtroListado;
@@ -65,24 +68,27 @@ export class EventoListaComponent implements OnInit {
   }
 
   public mostrarImagem(imagemURL: string): string{
-    return (imagemURL !== '')
-    ? `${environment.apiURL}resources/images/${imagemURL}`
-    : 'assets/img/semImagem.jpeg'
+    return imagemURL !== ''
+      ? `${environment.apiURL}resources/images/${imagemURL}`
+      : 'assets/img/semImagem.jpeg';
   }
 
   public carregarEventos(): void {
-    const observer = {
-      next:(_eventos: Evento[])=>{
-        this.eventos = _eventos;
-        this.eventosFiltrados = this.eventos;
-      },
-      error: (error: any) =>{
-        this.spinner.hide();
-        this.toastr.error('Erro ao carregar os eventos', 'Erro!');
-      },
-      complete: () => this.spinner.hide()
-    }
-    this.eventoService.getEventos().subscribe(observer);
+
+    this.spinner.show();
+
+    this.eventoService
+      .getEventos()
+      .subscribe(
+        (_eventos: Evento[]) => {
+          this.eventos = _eventos;
+          this.eventosFiltrados = this.eventos;
+        },
+        (error: any) => {
+          this.spinner.hide();
+          this.toastr.error('Erro ao Carregar os Eventos', 'Erro!');
+        }
+      ).add(() => this.spinner.hide());
   }
 
   abrirModal(event: any, template: TemplateRef<any>, eventoId: number): void {

@@ -37,7 +37,7 @@ namespace ProEventos.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ProEventosContext>(
-                context => context.UseSqlite(Configuration.GetConnectionString("Default"))
+                context => context.UseSqlite(Configuration.GetConnectionString("DEV"))
             );
             
             //Apenas para teste estão sendo desligadas as regras de dificuldade de senha, remover antes do uso em produção !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

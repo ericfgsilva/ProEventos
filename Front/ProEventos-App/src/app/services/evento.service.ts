@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable, take } from 'rxjs';
@@ -8,28 +8,23 @@ import { Evento } from '../models/Evento';
 export class EventoService {
   baseURL = environment.apiURL + 'api/eventos';
 
-  user = localStorage.getItem('user');
-  tokenHeader = new HttpHeaders({
-    'Authorization': this.user !== null ? `Bearer ${JSON.parse(this.user).token}` : ''
-  });
-
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]>{
     return this.http
-                .get<Evento[]>(this.baseURL, { headers: this.tokenHeader })
+                .get<Evento[]>(this.baseURL)
                 .pipe(take(1));
   }
 
   public getEventosByTema(tema: string): Observable<Evento[]>{
     return this.http
-                .get<Evento[]>(`${this.baseURL}/tema/${tema}`, { headers: this.tokenHeader })
+                .get<Evento[]>(`${this.baseURL}/tema/${tema}`)
                 .pipe(take(1));
   }
 
   public getEventoById(id: number): Observable<Evento>{
     return this.http
-                .get<Evento>(`${this.baseURL}/${id}`, { headers: this.tokenHeader })
+                .get<Evento>(`${this.baseURL}/${id}`)
                 .pipe(take(1));
   }
 
@@ -41,7 +36,7 @@ export class EventoService {
 
   public put(evento: Evento): Observable<Evento>{
     return this.http
-                .put<Evento>(`${this.baseURL}/${evento.id}`, evento, { headers: this.tokenHeader })
+                .put<Evento>(`${this.baseURL}/${evento.id}`, evento)
                 .pipe(take(1));
   }
 
@@ -57,7 +52,7 @@ export class EventoService {
     formData.append('file', fileToUpload);
 
     return this.http
-                .post<Evento>(`${this.baseURL}/upload-image/${eventoId}`, formData, { headers: this.tokenHeader })
+                .post<Evento>(`${this.baseURL}/upload-image/${eventoId}`, formData)
                 .pipe(take(1));
   }
 
