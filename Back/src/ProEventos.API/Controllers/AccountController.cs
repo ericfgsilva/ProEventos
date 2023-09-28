@@ -58,9 +58,9 @@ namespace ProEventos.API.Controllers
                 if(user != null){
 
                     return Ok(new {
-                        userName = user.UserName,
+                        UserName = user.UserName,
                         PrimeiroNome = user.PrimeiroNome,
-                        token = _tokenService.CreateToken(user).Result
+                        Token = _tokenService.CreateToken(user).Result
                     });
                 }
                 

@@ -8,12 +8,10 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   isCollapsed = true;
-  constructor(private router: Router) { /* TODO document why this constructor is empty */  }
 
-  ngOnInit() {
-    // TODO document why this method 'ngOnInit' is empty
+  constructor(private router: Router) {/* TODO document why this constructor is empty */  }
 
-  }
+ngOnInit() { /* TODO document why this method 'ngOnInit' is empty */ }
 
   showMenu(): boolean {
     return this.router.url != '/user/login';

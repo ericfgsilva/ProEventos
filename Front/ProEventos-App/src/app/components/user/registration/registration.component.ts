@@ -38,8 +38,8 @@ export class RegistrationComponent implements OnInit {
     };
 
     this.formulario = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      primeiroNome: ['', [Validators.required, Validators.minLength(2)]],
+      ultimoNome: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       userName: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
