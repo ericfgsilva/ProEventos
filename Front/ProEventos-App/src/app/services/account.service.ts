@@ -42,7 +42,7 @@ export class AccountService {
   }
 
   public clearCurrentUser(): void{
-    //localStorage.removeItem('user');
+    localStorage.removeItem('user');
     const newLocal = {} as User;
     this.currentUserSource.next(newLocal);
     this.currentUserSource.complete();
