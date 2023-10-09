@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-light bg-white shadow-sm" *ngIf="showMenu()">
+<nav class="navbar navbar-expand-lg bg-light bg-white shadow-sm">
   <div class="container">
     <a class="navbar-brand" routerLink="dashboard">
       <em class="fa fa-handshake mb-2" style="color:blueviolet"></em>
@@ -26,10 +26,11 @@
         <a class="btn btn-warning" routerLink="/user/registration">Me Cadastrar</a>
       </div>
       <ul *ngIf="(accountService.currentUser$ | async) !== null" class="navbar-nav">
-        <li class="nav-item dropdown" dropdown>
+        <li class="nav-item dropdown" dropdown *ngIf="(accountService.currentUser$ | async) as user">
           <a dropdownToggle class="nav-link dropdown-toggle" style="cursor: pointer;" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <em class="fa-solid fa-user"></em>
+            <!--<em class="fa-solid fa-user"></em>-->
+            {{user.primeiroNome | titlecase}}
           </a>
           <div *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" routerLink="user/perfil">

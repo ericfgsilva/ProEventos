@@ -1,7 +1,7 @@
 <app-titulo [titulo]="'Perfil'" [botaoListar]="false"></app-titulo>
 
 <div class="card rounded shadow-sm">
-  <form [formGroup]="formulario">
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
     <div class="row p-3">
       <div class="col-lg-3 pt-1">
         <div class="card mb-3">
@@ -47,15 +47,14 @@
             <select title="Lista de títulos" class="form-control"
             [ngClass]="cssValidator(form.titulo)"
             formControlName="titulo">
-              <option value=""></option>
-              <option value="0">Não Quero</option>
-              <option value="Senhorita">Tecnólogo(a)</option>
-              <option value="Senhorita">Bacharel</option>
-              <option value="Senhorita">Especialista</option>
-              <option value="Senhorita">Pós Graduado(a)</option>
-              <option value="Senhorita">Mestre</option>
-              <option value="Senhorita">Doutor(a)</option>
-              <option value="Senhorita">Pós Doc</option>
+              <option value="NaoInformado">Não Informado</option>
+              <option value="Tecnologo">Tecnólogo(a)</option>
+              <option value="Bacharel">Bacharel</option>
+              <option value="Especialista">Especialista</option>
+              <option value="PosGraduado">Pós Graduado(a)</option>
+              <option value="Mestrado">Mestre</option>
+              <option value="Doutorado">Doutor(a)</option>
+              <option value="PosDoutorado">Pós Doc</option>
             </select>
             <div *ngIf="form.titulo?.errors?.required" class="invalid-feedback">
               título obrigatório.
@@ -89,7 +88,7 @@
             <label>Função</label>
             <select title="Lista de funções" class="form-control"
             formControlName="funcao" [ngClass]="cssValidator(form.funcao)">
-              <option value=""></option>
+              <option value="NaoInformado">Não Informado</option>
               <option value="Participante">Participante</option>
               <option value="Palestrante">Palestrante</option>
             </select>
@@ -136,25 +135,25 @@
           <div class="form-group col-sm">
             <label>Senha</label>
             <input title="senha" type="password" class="form-control" placeholder="Insira a senha"
-            formControlName="senha" [ngClass]="cssValidator(form.senha)"/>
-            <div *ngIf="form.senha?.errors?.required" class="invalid-feedback">
+            formControlName="password" [ngClass]="cssValidator(form.password)"/>
+            <div *ngIf="form.password?.errors?.required" class="invalid-feedback">
               senha é obrigatória.
             </div>
-            <div *ngIf="form.senha?.errors?.minlength" class="invalid-feedback">
+            <div *ngIf="form.password?.errors?.minlength" class="invalid-feedback">
               senha deve ter mais de 6 caracteres.
             </div>
           </div>
           <div class="form-group col-sm">
             <label>Confirmar Senha</label>
             <input title="confirmar senha" type="password" class="form-control" placeholder="Confirme a senha"
-            formControlName="confirmeSenha" [ngClass]="cssValidator(form.confirmeSenha)"/>
-            <div *ngIf="form.confirmeSenha?.errors?.required" class="invalid-feedback">
+            formControlName="confirmePassword" [ngClass]="cssValidator(form.confirmePassword)"/>
+            <div *ngIf="form.confirmePassword?.errors?.required" class="invalid-feedback">
               Confirmação de senha obrigatória.
             </div>
-            <div *ngIf="form.confirmeSenha?.errors?.minlength" class="invalid-feedback">
+            <div *ngIf="form.confirmePassword?.errors?.minlength" class="invalid-feedback">
               senha deve ter mais de 6 caracteres.
             </div>
-            <div *ngIf="form.confirmeSenha?.errors?.mustMatch" class="invalid-feedback">
+            <div *ngIf="form.confirmePassword?.errors?.mustMatch" class="invalid-feedback">
               senhas devem ser iguais.
             </div>
           </div>
