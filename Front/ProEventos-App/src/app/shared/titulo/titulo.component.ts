@@ -11,7 +11,7 @@ export class TituloComponent implements OnInit {
 
   @Input() titulo = 'Pro Eventos';
   @Input() iconClass = 'fa fa-user';
-  @Input() subtitulo = 'Desde 2021';
+  @Input() subtitulo = '';
   @Input() botaoListar = false;
 
   constructor(private router: Router) { /*TODO document why this constructor is empty */}
