@@ -53,12 +53,13 @@ export class PerfilComponent implements OnInit {
     };
 
     this.formulario = this.fb.group({
+      id: [''],
       userName: [''],
       titulo: ['NaoInformado', Validators.required],
       primeiroNome: ['', [Validators.required, Validators.minLength(2)]],
       ultimoNome: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      telefone: ['', [Validators.required, Validators.minLength(10)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(10)]],
       funcao: ['NaoInformado', Validators.required],
       descricao: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -74,18 +75,20 @@ export class PerfilComponent implements OnInit {
     this.atualizarUsuario()
   }
 
-  public atualizarUsuario() {
-    this.userUpdate = { ...this.formulario.value }
-    this.spinner.show();
+  public atualizarUsuario(): void {
+    if(this.formulario.valid){
 
-    this.accountService.updateUser(this.userUpdate).subscribe(
-      () => this.toaster.success('Usuário atualizado!', 'Sucesso'),
-      (error) => {
-        this.toaster.error(error.error);
-        console.error(error);
-      },
-    )
-    .add(() => this.spinner.hide())
+      this.spinner.show();
+      this.userUpdate = { ...this.formulario.value }
+
+      this.accountService.updateUser(this.userUpdate).subscribe(
+        () => this.toaster.success('Usuário atualizado!', 'Sucesso'),
+        (error) => {
+          this.toaster.error(error.error);
+          console.error(error);
+        },
+      ).add(() => this.spinner.hide())
+    }
   }
 
   public resetForm(event: any): void {

@@ -99,11 +99,11 @@
           <div class="form-group col-sm-4">
             <label>Telefone</label>
             <input title="Telefone" type="text" class="form-control" placeholder="(11) 9 1234-5467"
-            formControlName="telefone" [ngClass]="cssValidator(form.telefone)"/>
-            <div *ngIf="form.telefone?.errors?.required" class="invalid-feedback">
+            formControlName="phoneNumber" [ngClass]="cssValidator(form.phoneNumber)"/>
+            <div *ngIf="form.phoneNumber?.errors?.required" class="invalid-feedback">
               telefone obrigatório.
             </div>
-            <div *ngIf="form.telefone?.errors?.minlength" class="invalid-feedback">
+            <div *ngIf="form.phoneNumber?.errors?.minlength" class="invalid-feedback">
               telefone inválido.
             </div>
           </div>

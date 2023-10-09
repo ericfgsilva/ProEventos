@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { User } from '@app/models/identity/User';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
