@@ -80,7 +80,7 @@ namespace ProEventos.Application
         {
             try
             {
-                var user = await _userPersist.GetUserByIdAsync(userUpdateDto.Id);
+                var user = await _userPersist.GetUserByUserNameAsync(userUpdateDto.UserName);
                 if(user == null) return null;
 
                 userUpdateDto.Id = user.Id;

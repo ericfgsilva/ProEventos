@@ -53,7 +53,6 @@ export class PerfilComponent implements OnInit {
     };
 
     this.formulario = this.fb.group({
-      id: [''],
       userName: [''],
       titulo: ['NaoInformado', Validators.required],
       primeiroNome: ['', [Validators.required, Validators.minLength(2)]],

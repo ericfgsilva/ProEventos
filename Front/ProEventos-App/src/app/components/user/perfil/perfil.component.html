@@ -14,7 +14,7 @@
             </a>
           </div>
           <div class="card-body">
-            <div class="h4 text-center mb-3">@UserName</div>
+            <div class="h4 text-center mb-3">@{{form.userName.value}}</div>
             <div *ngIf="form.primeiroNome.value || form.ultimoNome.value" class="h7 text-bold pb-1"><strong>Nome:</strong> {{form.primeiroNome.value}} {{form.ultimoNome.value}}</div>
             <div *ngIf="form.descricao.value" class="captilizeFirstLetter h7">
               {{form.descricao.value}}
