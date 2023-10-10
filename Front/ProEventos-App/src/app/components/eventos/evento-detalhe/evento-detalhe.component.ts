@@ -92,7 +92,7 @@ export class EventoDetalheComponent implements OnInit {
       this.spinner.show();
 
       this.estadoSalvar = 'put';
-                                      //conversão do parâmetro eventoIdParam texto para number
+      //conversão do parâmetro eventoIdParam texto para number
       this.eventoService.getEventoById(this.eventoId).subscribe({
         next: (evento: Evento) => {
           this.evento = {...evento};
