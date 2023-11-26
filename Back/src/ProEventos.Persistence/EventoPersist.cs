@@ -20,8 +20,9 @@ namespace ProEventos.Persistence
         public async Task<PageList<Evento>> GetAllEventosAsync(string userId, PageParams pageParams, bool includePalestrantes = false)
         {
             IQueryable<Evento> query = _context.Eventos.AsNoTracking()
-                .Where(e => e.Tema.ToLower().Contains(pageParams.Term.ToLower()) && 
-                            e.UserId == userId)
+                .Where(e => (e.Tema.ToLower().Contains(pageParams.Term.ToLower()) ||
+                             e.Local.ToLower().Contains(pageParams.Term.ToLower())) && 
+                             e.UserId == userId)
                 .Include(e => e.Lotes)
                 .Include(e => e.RedesSociais);
             query = query.OrderBy(e => e.Id);

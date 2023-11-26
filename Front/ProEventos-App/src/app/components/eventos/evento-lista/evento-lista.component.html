@@ -11,7 +11,7 @@
           type="text"
           class="form-control"
           placeholder="Filtrar por tema ou local..."
-          [(ngModel)]="filtroLista"
+          (input)="filtrarEventos($event.target)"
           >
       </div>
     </div>
