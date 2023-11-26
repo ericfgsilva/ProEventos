@@ -56,21 +56,21 @@ export class EventoDetalheComponent implements OnInit {
     return {
       adaptivePosition: true,
       isAnimated: true,
-      dateInputFormat: 'DD/MM/YYYY HH:mm',
+      dateInputFormat: 'DD/MM/YYYY HH:mm:ss',
       containerClass: 'theme-default',
       showWeekNumbers: false
     };
   }
 
-  get bsConfigData(): any {
-    return {
-      adaptivePosition: true,
-      isAnimated: true,
-      dateInputFormat: 'DD/MM/YYYY',
-      containerClass: 'theme-default',
-      showWeekNumbers: false
-    };
-  }
+  // get bsConfigData(): any {
+  //   return {
+  //     adaptivePosition: true,
+  //     isAnimated: true,
+  //     dateInputFormat: 'DD/MM/YYYY',
+  //     containerClass: 'theme-default',
+  //     showWeekNumbers: false
+  //   };
+  // }
 
   constructor(
     private fb: FormBuilder,
@@ -96,15 +96,16 @@ export class EventoDetalheComponent implements OnInit {
       this.eventoService.getEventoById(this.eventoId).subscribe({
         next: (evento: Evento) => {
           this.evento = {...evento};
+          if(this.evento.imageURL != '' && this.evento.imageURL != null){
+            this.imagemURL = environment.apiURL + 'Resources/Images/' + this.evento.imageURL;
+          }
           //esta forma é mais eficaz em relação ao carregarLotes() uma vez que o objeto evento já retorna a lista de lotes
           this.evento.lotes.forEach(lote => {
             this.lotes.push(this.criarLote(lote));
           });
           //this.carregarLotes();
           this.form.patchValue(this.evento);
-          if(this.evento.imageURL != '' && this.evento.imageURL != null){
-            this.imagemURL = environment.apiURL + 'Resources/Images/' + this.evento.imageURL;
-          }
+          //this.form.setValue({'imageURL': this.evento.imageURL, 'imageAlt': this.evento.imageAlt});
         },
         error: (error: any) => {
           this.toastr.error('Erro ao tentar carregar o evento.','Erro');
@@ -139,7 +140,7 @@ export class EventoDetalheComponent implements OnInit {
     this.form = this.fb.group({
       tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       local: ['', Validators.required],
-      //dataEvento: ['', Validators.required],
+      dataEvento: ['', Validators.required],
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
       telefone: ['', [Validators.required, Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
@@ -223,7 +224,7 @@ export class EventoDetalheComponent implements OnInit {
   public salvarEvento(): void{
     if(this.form.valid){
       this.spinner.show();
-      if(this.estadoSalvar === 'post'){
+      if(this.estadoSalvar == 'post'){
         this.evento = {...this.form.value};
         this.eventoService.post(this.evento).subscribe({
           next: (eventoRetorno: Evento) => {
@@ -236,9 +237,13 @@ export class EventoDetalheComponent implements OnInit {
           }
         }).add(() => this.spinner.hide());
       }else{
-        this.evento = {id: this.evento.id, ...this.form.value};
+        this.evento = {id: this.evento.id, imageURL: this.evento.imageURL, imageAlt: this.evento.imageAlt, ...this.form.value};
         this.eventoService.put(this.evento).subscribe({
-          next: (result: any) => {this.toastr.success('Evento salvo com sucesso!', 'Sucesso');},
+          next: (result: any) => {
+            this.toastr.success('Evento salvo com sucesso!', 'Sucesso');
+            this.evento = result;
+            this.form.patchValue(this.evento);
+          },
           error: (error: any) => {
             console.error(error);
             this.toastr.error('Erro ao salvar o evento.', 'Erro');
@@ -246,7 +251,6 @@ export class EventoDetalheComponent implements OnInit {
         }).add(() => this.spinner.hide());
       }
     }
-    console.error('deu ruim');
   }
 
   public salvarLotes(): void{
@@ -305,8 +309,9 @@ export class EventoDetalheComponent implements OnInit {
   uploadImagem(): void{
     this.spinner.show();
     this.eventoService.postUpload(this.eventoId, this.file).subscribe(
-      () => {
-        this.carregarEvento();
+      (result: any) => {
+        this.evento = result;
+        this.form.patchValue(this.evento);
         this.toastr.success('Imagem atualizada com sucesso.', 'Sucesso');
       },
       (error: any) => {

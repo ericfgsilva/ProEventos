@@ -165,7 +165,7 @@
                         type="text" class="form-control" formControlName="dataInicio" placeholder="dd/mm/aaaa"
                         value="{{lotes.get(i+'.dataInicio')?.value | date: 'dd/MM/yyyy'}}"
                         bsDatepicker
-                        [bsConfig]="bsConfigData">
+                        [bsConfig]="bsConfigDateTime">
                       </div>
                       <div class="form-group col-md-4">
                         <label>Data Fim</label>
@@ -173,7 +173,7 @@
                         type="text" class="form-control" formControlName="dataFim" placeholder="dd/mm/aaaa"
                         value="{{lotes.get(i+'.dataFim')?.value | date: 'dd/MM/yyyy'}}"
                         bsDatepicker
-                        [bsConfig]="bsConfigData">
+                        [bsConfig]="bsConfigDateTime">
                       </div>
                       <div class="col-md-4 pb-1 align-self-end ml-auto">
                         <legend class="d-flex justify-content-between">
