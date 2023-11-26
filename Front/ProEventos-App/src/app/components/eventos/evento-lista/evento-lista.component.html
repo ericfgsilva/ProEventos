@@ -66,7 +66,7 @@
         </td>
       </tr>
     </tbody>
-    <tfoot *ngIf="!eventos.length">
+    <tfoot *ngIf="!eventos">
       <tr>
         <td colspan="8" class="text-center">
           <h4>Nenhum evento encontrado!</h4>
@@ -75,20 +75,38 @@
     </tfoot>
   </table>
 
-</div>
+  <div class="d-flex justify-content-center">
 
+    <pagination
+      [boundaryLinks]="true"
 
+      [totalItems]="pagination.totalItems"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [(ngModel)]="pagination.currentPage"
+      (pageChanged)="pageChanged($event)"
 
-<ng-template #template>
-  <div class="modal-header">
-    <h3 class="modal-title pull-left">Atenção</h3>
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
+      pageBtnClass="btn"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;">
+
+    </pagination>
+
   </div>
-  <div class="modal-body">
-    <p>Tem certeza que deseja excluir o evento de código {{this.eventoId}}?</p>
-    <button type="button" class="btn btn-danger" (click)="confirmar()" >Sim</button>
-    <button type="button" class="btn btn-default" (click)="abortar()" >Não</button>
-  </div>
-</ng-template>
+
+  <!-- {{eventos | json}} -->
+
+  <ng-template #template>
+    <div class="modal-header">
+      <h3 class="modal-title pull-left">Atenção</h3>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Tem certeza que deseja excluir o evento de código {{this.eventoId}}?</p>
+      <button type="button" class="btn btn-danger" (click)="confirmar()" >Sim</button>
+      <button type="button" class="btn btn-default" (click)="abortar()" >Não</button>
+    </div>
+  </ng-template>

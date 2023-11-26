@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
 import { environment } from '@environments/environment';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { PaginatedResult, Pagination } from '@app/models/Pagination';
 
 @Component({
   selector: 'app-evento-lista',
@@ -13,11 +15,13 @@ import { environment } from '@environments/environment';
   styleUrls: ['./evento-lista.component.scss']
 })
 export class EventoListaComponent implements OnInit {
+
   modalRef?: BsModalRef;
 
   public eventos: Evento[] = [];
   public eventoId = 0;
   public eventosFiltrados: Evento[] = [];
+  public pagination = {} as Pagination;
 
   public larguraImg = 100;
   public margemImg = 2;
@@ -39,7 +43,7 @@ export class EventoListaComponent implements OnInit {
     this.filtroListado = value;
     this.eventosFiltrados = this.filtroLista ?
                           this.filtrarEventos(this.filtroLista)
-                        : this.eventos;
+                          : this.eventos;
   }
 
   public filtrarEventos(filtrarPor: string): Evento[] {
@@ -47,20 +51,25 @@ export class EventoListaComponent implements OnInit {
     return this.eventos.filter(
       (evento : any) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
       evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    )
-  }
+      )
+    }
 
-  constructor(
-    private eventoService: EventoService,
-    private modalService: BsModalService,
-    private toastr: ToastrService,
-    private spinner: NgxSpinnerService,
-    private router: Router
-  ){}
+    constructor(
+      private eventoService: EventoService,
+      private modalService: BsModalService,
+      private toastr: ToastrService,
+      private spinner: NgxSpinnerService,
+      private router: Router
+    ){}
 
-  public ngOnInit(): void {
-    this.spinner.show();
-    this.carregarEventos();
+    public ngOnInit(): void {
+      this.pagination = {
+        currentPage: 1,
+        itemsPerPage: 3,
+        totalItems: 1,
+      } as Pagination;
+
+      this.carregarEventos();
   }
 
   public alterarImagem(): void{
@@ -69,22 +78,23 @@ export class EventoListaComponent implements OnInit {
 
   public mostrarImagem(imagemURL: string): string{
     return imagemURL !== ''
-      ? `${environment.apiURL}resources/images/${imagemURL}`
-      : 'assets/img/semImagem.jpeg';
+    ? `${environment.apiURL}resources/images/${imagemURL}`
+    : 'assets/img/semImagem.jpeg';
   }
 
   public carregarEventos(): void {
-
     this.spinner.show();
 
     this.eventoService
-      .getEventos()
+      .getEventos(this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe(
-        (_eventos: Evento[]) => {
-          this.eventos = _eventos;
+        (paginatedResult: PaginatedResult<Evento[]>) => {
+          this.eventos = paginatedResult.result!;
           this.eventosFiltrados = this.eventos;
+          this.pagination = paginatedResult.pagination!;
         },
         (error: any) => {
+          console.error(error);
           this.spinner.hide();
           this.toastr.error('Erro ao Carregar os Eventos', 'Erro!');
         }
@@ -97,6 +107,11 @@ export class EventoListaComponent implements OnInit {
     this.modalRef = this.modalService.show(template, this.config);
   }
 
+  public pageChanged(event): void {
+    this.pagination.currentPage = event.page;
+    this.carregarEventos();
+  }
+
   confirmar(): void {
     this.modalRef?.hide();
     this.spinner.show();
@@ -104,15 +119,15 @@ export class EventoListaComponent implements OnInit {
     this.eventoService.deleteEvento(this.eventoId).subscribe({
       next: (retorno: any) => {
           if(retorno.result){
-            this.toastr.success('O evento foi excluído com sucesso!', 'Sucesso!');
             this.spinner.hide();
+            this.toastr.success('O evento foi excluído com sucesso!', 'Sucesso!');
             this.carregarEventos();
           }
       },
       error: (error: any) => {
         console.error(error);
-        this.toastr.error(`Erro ao tentar excluir o evento ${this.eventoId}`, 'Erro');
         this.spinner.hide();
+        this.toastr.error(`Erro ao tentar excluir o evento ${this.eventoId}`, 'Erro');
       },
       complete: () => {this.spinner.hide();},
     });
