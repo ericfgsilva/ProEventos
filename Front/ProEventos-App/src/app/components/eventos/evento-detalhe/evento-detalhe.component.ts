@@ -102,7 +102,7 @@ export class EventoDetalheComponent implements OnInit {
           });
           //this.carregarLotes();
           this.form.patchValue(this.evento);
-          if(this.evento.imageURL !== ''){
+          if(this.evento.imageURL != '' && this.evento.imageURL != null){
             this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imageURL;
           }
         },
