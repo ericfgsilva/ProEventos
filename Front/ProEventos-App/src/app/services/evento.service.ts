@@ -1,8 +1,9 @@
+import { Evento } from './../models/Evento';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
-import { Observable, map, take } from 'rxjs';
-import { Evento } from '../models/Evento';
 import { PaginatedResult } from '@app/models/Pagination';
 
 @Injectable()
@@ -26,9 +27,9 @@ export class EventoService {
                 .pipe(
                   take(1),
                   map((response) => {
-                    paginatedResult.result == response.body;
+                    paginatedResult.result = response.body;
                     if(response.headers.has('Pagination')){
-                      paginatedResult.pagination == JSON.parse(response.headers.get('Pagination')!);
+                      paginatedResult.pagination = JSON.parse(response.headers.get('Pagination')!);
                     }
                     return paginatedResult;
                   }));
