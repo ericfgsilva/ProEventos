@@ -88,7 +88,7 @@ export class EventoDetalheComponent implements OnInit {
 
   public carregarEvento(): void {
 
-    if(this.eventoId !== null && this.eventoId !== 0) {
+    if(this.eventoId != null && this.eventoId != 0) {
       this.spinner.show();
 
       this.estadoSalvar = 'put';
@@ -103,7 +103,7 @@ export class EventoDetalheComponent implements OnInit {
           //this.carregarLotes();
           this.form.patchValue(this.evento);
           if(this.evento.imageURL != '' && this.evento.imageURL != null){
-            this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imageURL;
+            this.imagemURL = environment.apiURL + 'Resources/Images/' + this.evento.imageURL;
           }
         },
         error: (error: any) => {
@@ -139,14 +139,14 @@ export class EventoDetalheComponent implements OnInit {
     this.form = this.fb.group({
       tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       local: ['', Validators.required],
-      dataEvento: ['', Validators.required],
+      //dataEvento: ['', Validators.required],
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
       telefone: ['', [Validators.required, Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
-      imageURL: [''],
-      imageAlt: this.modoEditar && this.imagemURL !== null
-                ? ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]]
-                : [''],
+      //imageURL: [''],
+      //imageAlt: this.modoEditar && this.imagemURL !== null
+      //          ? ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]]
+      //          : [''],
       lotes: this.fb.array([])
     })
   }
@@ -246,6 +246,7 @@ export class EventoDetalheComponent implements OnInit {
         }).add(() => this.spinner.hide());
       }
     }
+    console.error('deu ruim');
   }
 
   public salvarLotes(): void{

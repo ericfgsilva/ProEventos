@@ -104,8 +104,7 @@
               <button type="reset" class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
                 Cancelar Alteração
               </button>
-              <button type="submit" class="btn btn-success" [disabled]="!form.valid && !modoEditar
-                                                                     || !form.valid && modoEditar && f.imagemURL?.length === 0"
+              <button type="submit" class="btn btn-success" [disabled]="!form.valid || !modoEditar"
 
                 (click)="salvarEvento()">
                 Salvar Evento
@@ -113,7 +112,10 @@
             </div>
           </div>
         </form>
-    </div>
+      </div>
+
+      <!-- {{evento | json}} -->
+
       <!--Código do Lote-->
       <div class="card rounded shadow-sm mt-3" *ngIf="modoEditar">
           <div class="p-3">

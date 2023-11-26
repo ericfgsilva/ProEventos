@@ -93,8 +93,11 @@ namespace ProEventos.API.Controllers
 
                 if(file.Length > 0)
                 {
-                    DeleteImage(evento.ImageURL);
+                    if(evento.ImageURL != null && evento.ImageURL != ""){
+                        DeleteImage(evento.ImageURL);
+                    }
                     evento.ImageURL = await SaveImage(file);
+                    evento.ImageAlt = file.FileName;
                 }
                 var EventoRetorno = await _eventoService.UpdateEvento(User.GetUserId(), eventoId, evento);
 
@@ -156,7 +159,7 @@ namespace ProEventos.API.Controllers
             
             imageName = $"{imageName}{DateTime.UtcNow.ToString("yymmssfff")}{Path.GetExtension(imageFile.FileName)}";
             
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"resources/images", imageName);
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
 
             using(var fileStream = new FileStream(imagePath, FileMode.Create))
             {
@@ -169,7 +172,7 @@ namespace ProEventos.API.Controllers
         [NonAction]
         public void DeleteImage(string imageName)
         {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"resources/images", imageName);
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
             if(System.IO.File.Exists(imagePath)){
                 System.IO.File.Delete(imagePath);
             }
