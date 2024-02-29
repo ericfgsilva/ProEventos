@@ -84,13 +84,15 @@ namespace ProEventos.API
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<IEventoService, PalestranteService>();
+            services.AddScoped<IEventoService, EventoService>();
+            services.AddScoped<IPalestranteService, PalestranteService>();
             services.AddScoped<ILoteService, LoteService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccountService, AccountService>();
             
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IEventoPersist, EventoPersist>();
+            services.AddScoped<IPalestrantePersist, PalestrantePersist>();
             services.AddScoped<ILotePersist, LotePersist>();
             services.AddScoped<IUserPersist, UserPersist>();
             
