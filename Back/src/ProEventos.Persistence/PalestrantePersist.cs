@@ -1,7 +1,11 @@
+using System;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using ProEventos.Domain;
+using ProEventos.Domain.Identity;
 using ProEventos.Persistence.Contextos;
 using ProEventos.Persistence.Contratos;
 using ProEventos.Persistence.Models;
@@ -54,7 +58,7 @@ namespace ProEventos.Persistence
             }
 
             query = query.AsNoTracking().OrderBy(p => p.Id)
-                         .Where(p => p.UserId == userId);
+                         .Where(p => p.UserId == Guid.Parse(userId));
             
             return await query.FirstOrDefaultAsync();
         }

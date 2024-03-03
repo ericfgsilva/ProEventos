@@ -4,6 +4,7 @@ using AutoMapper;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
 using ProEventos.Domain;
+using ProEventos.Domain.Identity;
 using ProEventos.Persistence.Contratos;
 using ProEventos.Persistence.Models;
 
@@ -11,11 +12,13 @@ namespace ProEventos.Application
 {
     public class PalestranteService : IPalestranteService
     {
+        private readonly IAccountService _accountService;
         private readonly IPalestrantePersist _palestrantePersist;
         private readonly IMapper _mapper;
 
-        public PalestranteService(IPalestrantePersist palestrantePersist, IMapper mapper)
+        public PalestranteService(IPalestrantePersist palestrantePersist, IMapper mapper, IAccountService accountService)
         {
+            _accountService = accountService;
             _palestrantePersist = palestrantePersist;
             _mapper = mapper;
         }
@@ -25,13 +28,15 @@ namespace ProEventos.Application
             try
             {
                 var palestrante = _mapper.Map<Palestrante>(model);
-                palestrante.UserId = userId;
+                palestrante.UserId = Guid.Parse(userId);
 
                 _palestrantePersist.Add<Palestrante>(palestrante);
 
                 if(await _palestrantePersist.SaveChangesAsync())
                 {
-                    return _mapper.Map<PalestranteDto>(await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false));
+                    var palestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
+
+                    return _mapper.Map<PalestranteDto>(palestranteRetorno);
                 }
                 return null;
             }

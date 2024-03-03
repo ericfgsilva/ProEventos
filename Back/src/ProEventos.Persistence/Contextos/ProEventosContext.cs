@@ -46,7 +46,7 @@ namespace ProEventos.Persistence.Contextos
                 .HasMany(e => e.RedesSociais)
                 .WithOne(rs => rs.Evento)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<Palestrante>()
                 .HasMany(e => e.RedesSociais)
                 .WithOne(rs => rs.Palestrante)

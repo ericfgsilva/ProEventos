@@ -60,6 +60,22 @@ namespace ProEventos.Application
             }
         }
 
+        public async Task<UserUpdateDto> GetUserById(string uniqueId)
+        {
+            try
+            {
+                var user = await _userPersist.GetUserByIdAsync(Guid.Parse(uniqueId));
+                if(user == null) 
+                    return null;
+                else
+                    return _mapper.Map<UserUpdateDto>(user);
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception($"Erro ao tentar obter usuário por id. Erro: {ex.Message}");
+            }
+        }
+
         public async Task<UserUpdateDto> GetUserByUserNameAsync(string userName)
         {
             try
