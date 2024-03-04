@@ -106,7 +106,7 @@ namespace ProEventos.API.Controllers
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                                        $"Erro ao tentar alterar imagem do evento. Erro: {ex.Message}");
+                                        $"Erro ao tentar realizar upload de foto do evento. Erro: {ex.Message}");
             }
         }
 
