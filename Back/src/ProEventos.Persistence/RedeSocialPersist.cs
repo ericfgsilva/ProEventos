@@ -44,7 +44,8 @@ namespace ProEventos.Persistence
             IQueryable<RedeSocial> query = _context.RedesSociais;
 
             query = query.AsNoTracking()
-                         .Where(rs => rs.EventoId == eventoId);
+                         .Where(rs => rs.EventoId == eventoId)
+                         .Include(rs => rs.Evento);
 
             return await query.ToArrayAsync();
         }
@@ -53,7 +54,8 @@ namespace ProEventos.Persistence
             IQueryable<RedeSocial> query = _context.RedesSociais;
             
             query = query.AsNoTracking()
-                         .Where(rs => rs.PalestranteId == palestranteId);
+                         .Where(rs => rs.PalestranteId == palestranteId)
+                         .Include(rs => rs.Palestrante);
 
 
             return await query.ToArrayAsync();

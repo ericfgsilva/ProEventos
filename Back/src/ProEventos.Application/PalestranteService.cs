@@ -35,7 +35,7 @@ namespace ProEventos.Application
                 if(await _palestrantePersist.SaveChangesAsync())
                 {
                     var palestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
-
+                    
                     return _mapper.Map<PalestranteDto>(palestranteRetorno);
                 }
                 return null;
