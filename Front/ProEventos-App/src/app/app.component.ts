@@ -24,7 +24,7 @@ export class AppComponent {
     if(localStorage.getItem('user'))
       user = JSON.parse(localStorage.getItem('user') ?? '{}');
     else
-      user = {} as User
+      user = null
 
 
     if(user)
