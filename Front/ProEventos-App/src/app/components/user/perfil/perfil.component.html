@@ -1,7 +1,7 @@
 <app-titulo [titulo]="'Perfil'" [botaoListar]="false"></app-titulo>
 
 <div class="card rounded shadow-sm">
-  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+
     <div class="row p-3">
       <div class="col-lg-3 pt-1">
         <div class="card mb-3">
@@ -14,10 +14,10 @@
             </a>
           </div>
           <div class="card-body">
-            <div class="h4 text-center mb-3">@{{form.userName.value}}</div>
-            <div *ngIf="form.primeiroNome.value || form.ultimoNome.value" class="h7 text-bold pb-1"><strong>Nome:</strong> {{form.primeiroNome.value}} {{form.ultimoNome.value}}</div>
-            <div *ngIf="form.descricao.value" class="captilizeFirstLetter h7">
-              {{form.descricao.value}}
+            <div class="h4 text-center mb-3">@{{userUpdate.userName}}</div>
+            <div *ngIf="userUpdate.primeiroNome || userUpdate.ultimoNome" class="h7 text-bold pb-1"><strong>Nome:</strong> {{userUpdate.primeiroNome}} {{userUpdate.ultimoNome}}</div>
+            <div *ngIf="userUpdate.descricao" class="captilizeFirstLetter h7">
+              {{userUpdate.descricao}}
             </div>
           </div>
           <ul class="list-group list-group-flush">
@@ -38,137 +38,15 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="form-row">
-          <div class="form-group col-12">
-            <h3 class="border-bottom">Detalhe Perfil</h3>
-          </div>
-          <div class="form-group col-sm-3">
-            <label>Título</label>
-            <select title="Lista de títulos" class="form-control"
-            [ngClass]="cssValidator(form.titulo)"
-            formControlName="titulo">
-              <option value="NaoInformado">Não Informado</option>
-              <option value="Tecnologo">Tecnólogo(a)</option>
-              <option value="Bacharel">Bacharel</option>
-              <option value="Especialista">Especialista</option>
-              <option value="PosGraduado">Pós Graduado(a)</option>
-              <option value="Mestrado">Mestre</option>
-              <option value="Doutorado">Doutor(a)</option>
-              <option value="PosDoutorado">Pós Doc</option>
-            </select>
-            <div *ngIf="form.titulo?.errors?.required" class="invalid-feedback">
-              título obrigatório.
-            </div>
-          </div>
-          <div class="form-group col-sm-4">
-            <label>Primeiro Nome</label>
-            <input title="primeiro nome" type="text" class="form-control" placeholder="Insira o primeiro nome"
-            formControlName="primeiroNome" [ngClass]="cssValidator(form.primeiroNome)"/>
-            <div *ngIf="form.primeiroNome?.errors?.required" class="invalid-feedback">
-              primeiro nome obrigatório.
-            </div>
-            <div *ngIf="form.primeiroNome?.errors?.minlength" class="invalid-feedback">
-              primeiro nome deve ser maior.
-            </div>
-          </div>
-          <div class="form-group col-sm-5">
-            <label>Último nome</label>
-            <input title="último nome" type="text" class="form-control" placeholder="Insira o último nome"
-            formControlName="ultimoNome" [ngClass]="cssValidator(form.ultimoNome)"/>
-            <div *ngIf="form.ultimoNome?.errors?.required" class="invalid-feedback">
-              último nome obrigatório.
-            </div>
-            <div *ngIf="form.ultimoNome?.errors?.minlength" class="invalid-feedback">
-              último nome deve ser maior.
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm-3">
-            <label>Função</label>
-            <select title="Lista de funções" class="form-control"
-            formControlName="funcao" [ngClass]="cssValidator(form.funcao)">
-              <option value="NaoInformado">Não Informado</option>
-              <option value="Participante">Participante</option>
-              <option value="Palestrante">Palestrante</option>
-            </select>
-            <div *ngIf="form.funcao?.errors?.required" class="invalid-feedback">
-              função obrigatória.
-            </div>
-          </div>
-          <div class="form-group col-sm-4">
-            <label>Telefone</label>
-            <input title="Telefone" type="text" class="form-control" placeholder="(11) 9 1234-5467"
-            formControlName="phoneNumber" [ngClass]="cssValidator(form.phoneNumber)"/>
-            <div *ngIf="form.phoneNumber?.errors?.required" class="invalid-feedback">
-              telefone obrigatório.
-            </div>
-            <div *ngIf="form.phoneNumber?.errors?.minlength" class="invalid-feedback">
-              telefone inválido.
-            </div>
-          </div>
-          <div class="form-group col-sm-5">
-            <label>E-mail</label>
-            <input title="e-mail" type="text" class="form-control" placeholder="Insira o e-mail"
-            formControlName="email" [ngClass]="cssValidator(form.email)"/>
-            <div *ngIf="form.email?.errors?.required" class="invalid-feedback">
-              e-mail obrigatório.
-            </div>
-            <div *ngIf="form.email?.errors?.email" class="invalid-feedback">
-              e-mail inválido.
-            </div>
-          </div>
-          <div class="form-group col-12">
-            <label>Descrição</label>
-            <input title="descrição" type="text" class="form-control" placeholder="Insira a descrição"
-            formControlName="descricao" [ngClass]="cssValidator(form.descricao)"/>
-            <div *ngIf="form.descricao?.errors?.required" class="invalid-feedback">
-              descrição obrigatória.
-            </div>
-          </div>
-        </div>
-        <div>
-          <h3 class="pt-3 border-bottom">Mudar Senha</h3>
-          <p>Caso mude de senha, preencha os campos abaixo:</p>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm">
-            <label>Senha</label>
-            <input title="senha" type="password" class="form-control" placeholder="Insira a senha"
-            formControlName="password" [ngClass]="cssValidator(form.password)"/>
-            <div *ngIf="form.password?.errors?.required" class="invalid-feedback">
-              senha é obrigatória.
-            </div>
-            <div *ngIf="form.password?.errors?.minlength" class="invalid-feedback">
-              senha deve ter mais de 6 caracteres.
-            </div>
-          </div>
-          <div class="form-group col-sm">
-            <label>Confirmar Senha</label>
-            <input title="confirmar senha" type="password" class="form-control" placeholder="Confirme a senha"
-            formControlName="confirmePassword" [ngClass]="cssValidator(form.confirmePassword)"/>
-            <div *ngIf="form.confirmePassword?.errors?.required" class="invalid-feedback">
-              Confirmação de senha obrigatória.
-            </div>
-            <div *ngIf="form.confirmePassword?.errors?.minlength" class="invalid-feedback">
-              senha deve ter mais de 6 caracteres.
-            </div>
-            <div *ngIf="form.confirmePassword?.errors?.mustMatch" class="invalid-feedback">
-              senhas devem ser iguais.
-            </div>
-          </div>
-        </div>
+        <tabset>
+          <tab heading="Detalhes" id="tab1">
+            <app-perfil-detalhe></app-perfil-detalhe>
+          </tab>
+          <tab heading="Basic Title 1">Basic content 1</tab>
+          <tab heading="Basic Title 2">Basic content 2</tab>
+        </tabset>
+
       </div>
     </div>
-    <div class="card-footer">
-      <div class="d-flex">
-        <button (click)="resetForm($event)" type="reset" class="btn btn-outline-secondary mr-auto border">
-          Cancelar Alteração
-        </button>
-        <button type="submit" class="btn btn-success" [disabled]="!formulario.valid">
-          Salvar Alteração
-        </button>
-      </div>
-    </div>
-  </form>
+
 </div>
