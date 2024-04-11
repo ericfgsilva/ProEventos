@@ -39,11 +39,30 @@
       </div>
       <div class="col-lg-9">
         <tabset>
-          <tab heading="Detalhes" id="tab1">
+          <tab class="border border-top-0 p-3">
+            <ng-template tabHeading>
+              <i class="fa fa-address-card mr-2"></i><span>Perfil</span>
+            </ng-template>
+
             <app-perfil-detalhe></app-perfil-detalhe>
+
           </tab>
-          <tab heading="Basic Title 1">Basic content 1</tab>
-          <tab heading="Basic Title 2">Basic content 2</tab>
+          <tab class="border border-top-0 p-3">
+            <ng-template tabHeading>
+              <i class="fa fa-user mr-2"></i><span>Palestrante</span>
+            </ng-template>
+
+            //Componente Palestrante//
+
+          </tab>
+          <tab class="border border-top-0 p-3">
+            <ng-template tabHeading>
+              <i class="fa fa-share-square mr-2"></i><span>Rede Social</span>
+            </ng-template>
+
+            //Componente Rede Social//
+
+          </tab>
         </tabset>
 
       </div>
