@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserUpdate } from '@app/models/identity/UserUpdate';
+import { Funcao } from '@app/shared/enums/funcao';
 
 @Component({
   selector: 'app-perfil',
@@ -11,7 +12,7 @@ export class PerfilComponent implements OnInit {
   public usuario = {} as UserUpdate;
 
   public get ehPalestrante(): boolean{
-    return this.usuario.funcao === 'Palestrante';
+    return this.usuario.funcao === Funcao.Palestrante;
   }
 
   constructor() { }
