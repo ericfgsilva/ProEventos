@@ -47,7 +47,7 @@
             <app-perfil-detalhe (changeFormValue)="getFormValue($event)"></app-perfil-detalhe>
 
           </tab>
-          <tab class="border border-top-0 p-3">
+          <tab *ngIf="ehPalestrante" class="border border-top-0 p-3">
             <ng-template tabHeading>
               <i class="fa fa-user mr-2"></i><span>Palestrante</span>
             </ng-template>
@@ -55,7 +55,7 @@
             //Componente Palestrante//
 
           </tab>
-          <tab class="border border-top-0 p-3">
+          <tab *ngIf="ehPalestrante" class="border border-top-0 p-3">
             <ng-template tabHeading>
               <i class="fa fa-share-square mr-2"></i><span>Rede Social</span>
             </ng-template>

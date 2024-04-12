@@ -10,6 +10,10 @@ export class PerfilComponent implements OnInit {
 
   public usuario = {} as UserUpdate;
 
+  public get ehPalestrante(): boolean{
+    return this.usuario.funcao === 'Palestrante';
+  }
+
   constructor() { }
 
   ngOnInit(): void {
