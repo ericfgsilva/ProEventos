@@ -36,7 +36,7 @@ export class EventoListaComponent implements OnInit {
   };
 
   public filtrarEventos(evt: any): void {
-    if(this.termoBuscaChanged.observers.length == 0){
+    if(evt.value.toString().trim().length != 0){
       this.termoBuscaChanged.pipe(debounceTime(1000)).subscribe(
         filtrarPor => {
           this.spinner.show();
@@ -50,6 +50,7 @@ export class EventoListaComponent implements OnInit {
               this.pagination = paginatedResult.pagination;
             },
             (error: any) => {
+              console.error(error);
               this.spinner.hide();
               this.toastr.error('Erro ao Carregar os Eventos', 'Erro!');
             }
