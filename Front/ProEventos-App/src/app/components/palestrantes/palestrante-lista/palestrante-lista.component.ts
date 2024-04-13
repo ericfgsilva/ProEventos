@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PaginatedResult, Pagination } from '@app/models/Pagination';
 import { Palestrante } from '@app/models/Palestrante';
 import { PalestranteService } from '@app/services/palestrante.service';
+import { environment } from '@environments/environment';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +20,7 @@ export class PalestranteListaComponent implements OnInit {
   public palestrantes: Palestrante[] = [];
   public pagination = {} as Pagination;
   termoBuscaChanged: Subject<string> = new Subject<string>();
+  public pathImagem = environment.apiURL + 'resources/perfil/';
 
   constructor(
     private palestranteService: PalestranteService,
@@ -38,12 +40,16 @@ export class PalestranteListaComponent implements OnInit {
     this.carregarPalestrantes();
   }
 
+  public getImagemURL(imagemName: string): string{
+    return imagemName != undefined ? environment.apiURL + `resources/perfil/${imagemName}` : null;
+  }
+
   public carregarPalestrantes(): void {
     this.spinner.show();
 
     this.palestranteService
-      .getPalestrantes(this.pagination.currentPage, this.pagination.itemsPerPage)
-      .subscribe(
+    .getPalestrantes(this.pagination.currentPage, this.pagination.itemsPerPage)
+    .subscribe(
         (paginatedResult: PaginatedResult<Palestrante[]>) => {
           this.palestrantes = paginatedResult.result!;
           this.pagination = paginatedResult.pagination!;

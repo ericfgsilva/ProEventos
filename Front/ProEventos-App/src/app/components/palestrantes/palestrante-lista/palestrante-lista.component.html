@@ -2,7 +2,7 @@
 <div class="card rounded shadown-sm p-3">
 
   <div class="d-flex">
-    <div class="flex-fill pr-3">
+    <div class="flex-fill">
       <div class="input-group mb-2">
         <div class="input-group-prepend">
           <div class="input-group-text" strong><strong>Filtro: </strong></div>
@@ -17,29 +17,40 @@
     </div>
   </div>
 
-  <table aria-describedby="Tabela com lista de palestrantes gerais do ProEventos." class="table table table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>#</th>
-        <th>Nome</th>
-        <th>Título</th>
-        <th>Minicurrículo</th>
-      </tr>
-    </thead>
-    <tbody *ngIf="palestrantes && palestrantes.length">
-      <tr *ngFor="let palestrante of palestrantes" style="cursor: pointer;">
-        <td>{{palestrante.id}}</td>
-        <td>{{palestrante.user.primeiroNome +" "+ palestrante.user.ultimoNome}}</td>
-        <td>{{palestrante.user.titulo}}</td>
-        <td>{{palestrante.miniCurriculo}}</td>
-      </tr>
-    </tbody>
-    <tfoot *ngIf="!palestrantes">
-      <tr>
-        <td colspan="8" class="text-center">
-          <h4>Nenhum palestrante encontrado!</h4>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <div *ngIf="palestrantes && palestrantes.length" class="row mt-2">
+    <div class="col-md-4 mb-4 d-flex align-items-stretch" *ngFor="let palestrante of palestrantes">
+
+      <div class="card">
+        <div class="d-flex align-self-center pt-3">
+            <img
+              [src]="getImagemURL(palestrante.user.imagemURL) || 'assets/img/perfil.png'"
+              class="rounded-circle"
+              style="cursor: pointer;"
+              width="120" height="120"
+              alt="Imagem de perfil que você selecionou.">
+        </div>
+        <div class="card-body">
+          <div class="h4 text-center mb-3">@{{palestrante.user.userName}}</div>
+          <div *ngIf="palestrante.user.primeiroNome || palestrante.user.ultimoNome" class="h7 text-bold pb-1"><strong>Nome:</strong> {{palestrante.user.primeiroNome}} {{palestrante.user.ultimoNome}}</div>
+          <div *ngIf="palestrante.miniCurriculo" class="captilizeFirstLetter h7">
+            {{palestrante.miniCurriculo}}
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-6 text-center border-right">
+                <div class="h5">0</div>
+                <div class="h6 text-muted">Meus Eventos Criados</div>
+              </div>
+              <div class="col-6 text-center">
+                <div class="h5">0</div>
+                <div class="h6 text-muted">Eventos como Participante</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
