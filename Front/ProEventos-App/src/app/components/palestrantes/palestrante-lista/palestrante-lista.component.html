@@ -16,9 +16,30 @@
       </div>
     </div>
   </div>
-  <div *ngIf="palestrantes && palestrantes.length">
-    <div class="col-md-4 mb-4 d-flex align-items-stretch" *ngFor="let palestrante of palestrantes">
-      {{palestrante.user.primeiroNome}}
-    </div>
-  </div>
+
+  <table aria-describedby="Tabela com lista de palestrantes gerais do ProEventos." class="table table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Título</th>
+        <th>Mini Currículo</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="palestrantes && palestrantes.length">
+      <tr *ngFor="let palestrante of palestrantes" style="cursor: pointer;">
+        <td>{{palestrante.id}}</td>
+        <td>{{palestrante.user.primeiroNome + palestrante.user.ultimoNome}}</td>
+        <td>{{palestrante.user.titulo}}</td>
+        <td>{{palestrante.miniCurriculo}}</td>
+      </tr>
+    </tbody>
+    <tfoot *ngIf="!palestrantes">
+      <tr>
+        <td colspan="8" class="text-center">
+          <h4>Nenhum palestrante encontrado!</h4>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
