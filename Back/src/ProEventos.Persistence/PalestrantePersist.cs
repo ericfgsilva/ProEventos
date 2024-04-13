@@ -27,6 +27,7 @@ namespace ProEventos.Persistence
                 .Include(p => p.User)
                 .Include(p => p.RedesSociais);
 
+
             if(includeEventos)
             {
                 query = query

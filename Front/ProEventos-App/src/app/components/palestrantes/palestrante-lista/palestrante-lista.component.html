@@ -10,7 +10,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Filtrar por tema ou local..."
+          placeholder="Filtrar por nome ou minicurrículo..."
           (input)="filtrarPalestrantes($event.target)"
           >
       </div>
@@ -23,13 +23,13 @@
         <th>#</th>
         <th>Nome</th>
         <th>Título</th>
-        <th>Mini Currículo</th>
+        <th>Minicurrículo</th>
       </tr>
     </thead>
     <tbody *ngIf="palestrantes && palestrantes.length">
       <tr *ngFor="let palestrante of palestrantes" style="cursor: pointer;">
         <td>{{palestrante.id}}</td>
-        <td>{{palestrante.user.primeiroNome + palestrante.user.ultimoNome}}</td>
+        <td>{{palestrante.user.primeiroNome +" "+ palestrante.user.ultimoNome}}</td>
         <td>{{palestrante.user.titulo}}</td>
         <td>{{palestrante.miniCurriculo}}</td>
       </tr>
