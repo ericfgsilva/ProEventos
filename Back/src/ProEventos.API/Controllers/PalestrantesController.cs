@@ -85,7 +85,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateById(PalestranteUpdateDto model)
+        public async Task<IActionResult> Put(PalestranteUpdateDto model)
         {
             try
             {

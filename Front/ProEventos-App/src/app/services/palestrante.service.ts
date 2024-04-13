@@ -57,7 +57,7 @@ export class PalestranteService {
 
   public put(palestrante: Palestrante): Observable<Palestrante>{
     return this.http
-                .put<Palestrante>(`${this.baseURL}`, palestrante)
+                .put<Palestrante>(this.baseURL, palestrante)
                 .pipe(take(1));
   }
 }

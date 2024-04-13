@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   public login(): void{
+    localStorage.clear();
+
     this.accountService.login(this.model).subscribe(
       () => { this.router.navigateByUrl('/dashboard'); },
       (error: any) => {

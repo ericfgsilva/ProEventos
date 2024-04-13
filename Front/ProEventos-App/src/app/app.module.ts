@@ -44,6 +44,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
 import { HomeComponent } from './components/home/home.component';
 import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/perfil-detalhe.component';
 import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
+import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -53,6 +54,7 @@ defineLocale('pt-br', ptBrLocale);
     EventosComponent,
     PalestrantesComponent,
     PalestranteListaComponent,
+    PalestranteDetalheComponent,
     ContatosComponent,
     DashboardComponent,
     PerfilComponent,
