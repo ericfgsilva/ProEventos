@@ -31,7 +31,7 @@ export class PalestranteService {
     }
 
     return this.http
-                .get<Palestrante[]>(this.baseURL = '/all', {observe: 'response', params})
+                .get<Palestrante[]>(this.baseURL + '/all', {observe: 'response', params})
                 .pipe(
                   take(1),
                   map((response) => {

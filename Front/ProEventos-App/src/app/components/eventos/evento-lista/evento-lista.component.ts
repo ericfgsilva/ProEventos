@@ -75,7 +75,7 @@ export class EventoListaComponent implements OnInit {
       } as Pagination;
 
       this.carregarEventos();
-  }
+    }
 
   public alterarImagem(): void{
     this.exibirImage = !this.exibirImage;
