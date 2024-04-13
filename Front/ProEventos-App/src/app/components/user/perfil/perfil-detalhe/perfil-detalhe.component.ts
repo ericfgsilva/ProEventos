@@ -40,7 +40,6 @@ export class PerfilDetalheComponent implements OnInit {
     this.spinner.show();
     this.accountService.getUser().subscribe(
       (userRetorno: UserUpdate) => {
-        console.log(userRetorno);
         this.userUpdate = userRetorno;
         this.form.patchValue(this.userUpdate);
         this.toaster.success('Usuário Carregado', 'Sucesso');
@@ -62,6 +61,7 @@ export class PerfilDetalheComponent implements OnInit {
 
     this.form = this.fb.group({
       userName: [''],
+      imagemURL: [''],
       titulo: ['NaoInformado', Validators.required],
       primeiroNome: ['', [Validators.required, Validators.minLength(2)]],
       ultimoNome: ['', [Validators.required, Validators.minLength(2)]],
@@ -69,8 +69,8 @@ export class PerfilDetalheComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.minLength(10)]],
       funcao: ['NaoInformado', Validators.required],
       descricao: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmePassword: ['', Validators.required],
+      password: ['', [Validators.minLength(6), Validators.nullValidator]],
+      confirmePassword: ['', Validators.nullValidator],
     }, formOptions);
   }
   get f(): any {

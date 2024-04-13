@@ -24,8 +24,13 @@ namespace ProEventos.Api.Helpers
             var imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ','-');
             
             imageName = $"{imageName}{DateTime.UtcNow.ToString("yymmssfff")}{Path.GetExtension(imageFile.FileName)}";
+            var diretorio = Path.Combine(_hostEnvironment.ContentRootPath, @$"Resources\{destino}");
+
+            if(!System.IO.File.Exists(diretorio)){
+                System.IO.Directory.CreateDirectory(diretorio);
+            }
             
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @$"Resources/{destino}", imageName);
+            var imagePath = Path.Combine(diretorio, imageName);
 
             using(var fileStream = new FileStream(imagePath, FileMode.Create))
             {

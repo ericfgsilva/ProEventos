@@ -5,13 +5,16 @@
     <div class="row p-3">
       <div class="col-lg-3 pt-1">
         <div class="card mb-3">
-          <div class="card-header"></div>
+          <div class="card-header">
+            <input type="file" #file (change)="onFileChange($event)" style="display: none;">
+          </div>
           <div class="d-flex align-self-center pt-3">
-            <a>
               <img
-              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
-              width="120" height="120" class="rounded-circle" alt="Imagem de perfil que você selecionou.">
-            </a>
+              [src]="imagemURL || 'assets/img/perfil.png'"
+              class="rounded-circle"
+              (click)="file.click()"
+              style="cursor: pointer;"
+              name="aboutme" width="120" height="120" alt="Imagem de perfil que você selecionou.">
           </div>
           <div class="card-body">
             <div class="h4 text-center mb-3">@{{usuario.userName}}</div>
@@ -44,7 +47,7 @@
               <i class="fa fa-address-card mr-2"></i><span>Perfil</span>
             </ng-template>
 
-            <app-perfil-detalhe (changeFormValue)="getFormValue($event)"></app-perfil-detalhe>
+            <app-perfil-detalhe (changeFormValue)="setFormValue($event)"></app-perfil-detalhe>
 
           </tab>
           <tab *ngIf="ehPalestrante" class="border border-top-0 p-3">
