@@ -1,18 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RedeSocial } from '@app/models/RedeSocial';
+import { environment } from '@environments/environment';
 import { Observable, take } from 'rxjs';
 
 @Injectable()
-export class RedesSociaisService {
+export class RedeSocialService {
 
-  baseURL = 'https://localhost:5001/api/redesSociais';
+  baseURL = environment.apiURL + 'api/redesSociais';
 
   constructor(private http: HttpClient) { }
 
-  public getRedesSociaisByEventoId(eventoId: number): Observable<RedeSocial[]>{
+  /**
+   *
+   * @param origem Informar a palavra 'palestrante' ou 'evento' para buscar na rota específica
+   * @param id Informar PalestranteId ou EventoId, dependendo da origem informada
+   * @returns Observable<RedeSocial[]>
+   */
+  public getRedesSociais(origem: string, id: number): Observable<RedeSocial[]>{
+    let URL =
+      id == 0
+        ? `${this.baseURL}/${origem.toLowerCase()}`
+        : `${this.baseURL}/${origem.toLowerCase()}/${id}`;
+
     return this.http
-                .get<RedeSocial[]>(`${this.baseURL}/${eventoId}`)
+                .get<RedeSocial[]>(URL)
                 .pipe(take(1));
   }
 

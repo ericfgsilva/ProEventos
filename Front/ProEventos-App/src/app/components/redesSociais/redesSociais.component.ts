@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RedeSocial } from '@app/models/RedeSocial';
-import { RedesSociaisService } from '@app/services/redesSociais.service';
+import { RedeSocialService } from '@app/services/redeSocial.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -26,11 +26,30 @@ export class RedesSociaisComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: BsModalService,
     private router: Router,
-    private redesSociaisService: RedesSociaisService,
+    private redeSocialService: RedeSocialService,
   ) { }
 
   ngOnInit() {
+    if(this.eventoId === 0){
+      this.carregarRedesSociais('palestrante');
+    }
     this.validation();
+  }
+
+  private carregarRedesSociais(origem: string, id: number = 0): void {
+    this.spinner.show();
+    this.redeSocialService.getRedesSociais(origem, id)
+      .subscribe(
+        (redeSocialRetorno: RedeSocial[]) => {
+          redeSocialRetorno.forEach((redeSocial) => {
+            this.redesSociais.push(this.criarRedeSocial(redeSocial));
+          });
+        },
+        (error: any) => {
+          this.toastr.error('Erro ao tentar carregar redes sociais.', 'Erro');
+          console.error(error);
+        }
+      ).add(() => this.spinner.hide());
   }
 
   public validation(): void{
@@ -39,12 +58,12 @@ export class RedesSociaisComponent implements OnInit {
     });
   }
 
-  get redesSociais(): FormArray{
+  public get redesSociais(): FormArray{
     return this.formRS.get('redesSociais') as FormArray;
   }
 
   public retornaTituloRedeSocial(nome: string): string {
-    return nome === null || nome === '' ? 'Nova rede social' : nome;
+    return nome === null || nome === '' ? 'Rede social' : nome;
   }
 
   public adicionarRedeSocial(): void{
@@ -56,14 +75,15 @@ export class RedesSociaisComponent implements OnInit {
   public criarRedeSocial(redeSocial: RedeSocial): FormGroup{
     return this.fb.group({
       id: [redeSocial.id],
-      nome: [redeSocial.nome, Validators.required]
+      nome: [redeSocial.nome, Validators.required],
+      url: [redeSocial.url, Validators.required]
     });
   }
 
   public confirmarDeleteRedeSocial(): void{
     this.modalRef?.hide();
     this.spinner.show();
-    this.redesSociaisService.deleteRedeSocial(this.eventoId, this.redeSocialAtual.id)
+    this.redeSocialService.deleteRedeSocial(this.eventoId, this.redeSocialAtual.id)
     .subscribe(
       () => {
         this.toastr.success('Rede Social removido com sucesso!', 'Sucesso');
@@ -87,7 +107,7 @@ export class RedesSociaisComponent implements OnInit {
   public salvarRedesSociais(): void{
     if(this.redesSociais.valid){
       this.spinner.show();
-      this.redesSociaisService.saveRedesSociais(this.eventoId, this.redesSociais.value)
+      this.redeSocialService.saveRedesSociais(this.eventoId, this.redesSociais.value)
         .subscribe(
           () => {
             this.toastr.success('Redes Sociais salvas com sucesso!','Sucesso');
@@ -104,7 +124,7 @@ export class RedesSociaisComponent implements OnInit {
   public salvarRedeSocial(redeSocial: RedeSocial): void{
     if(this.redeSocialValida(redeSocial)){
       this.spinner.show();
-      this.redesSociaisService.saveRedesSociais(this.eventoId, [redeSocial])
+      this.redeSocialService.saveRedesSociais(this.eventoId, [redeSocial])
         .subscribe(
           () => {
             this.toastr.success('Rede Social salva com sucesso!','Sucesso');
@@ -130,12 +150,11 @@ export class RedesSociaisComponent implements OnInit {
 
       this.redesSociais.removeAt(this.redeSocialAtual.indice);
     }
-
   }
 
   redeSocialValida(redeSocial: RedeSocial): boolean{
     return redeSocial.nome !== ''
-           && redeSocial.URL !== null
+           && redeSocial.url !== ''
            && redeSocial.eventoId !== null
            && redeSocial.palestranteId !== null
   }

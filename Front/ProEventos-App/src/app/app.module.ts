@@ -46,6 +46,8 @@ import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/
 import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
 import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
 import { RedesSociaisComponent } from './components/redesSociais/redesSociais.component';
+import { RedeSocialService } from './services/redeSocial.service';
+import { PalestranteService } from './services/palestrante.service';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -109,6 +111,8 @@ defineLocale('pt-br', ptBrLocale);
     AccountService,
     EventoService,
     LoteService,
+    PalestranteService,
+    RedeSocialService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
