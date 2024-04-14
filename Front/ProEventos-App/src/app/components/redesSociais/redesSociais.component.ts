@@ -29,13 +29,15 @@ export class RedesSociaisComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.eventoId === 0){
-      this.carregarRedesSociais('palestrante');
-    }
+    this.carregarRedesSociais(this.eventoId);
     this.validation();
   }
 
-  private carregarRedesSociais(origem: string, id: number = 0): void {
+  private carregarRedesSociais(id: number = 0): void {
+    let origem = 'palestrante';
+
+    if(this.eventoId !== 0) origem = 'evento';
+
     this.spinner.show();
     this.redeSocialService.getRedesSociais(origem, id)
       .subscribe(
@@ -119,7 +121,6 @@ export class RedesSociaisComponent implements OnInit {
         .subscribe(
           () => {
             this.toastr.success('Redes Sociais salvas com sucesso!','Sucesso');
-            this.router.navigate([`eventos/detalhe/${this.eventoId}`]);
           },
           (error: any) => {
             this.toastr.error('Erro ao salvar redes sociais.', 'Erro');
