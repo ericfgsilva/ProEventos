@@ -52,13 +52,12 @@ export class EventoDetalheComponent implements OnInit {
     return this.form.controls;
   }
 
-  get bsConfigDateTime(): any {
+  get bsConfig(): any {
     return {
       adaptivePosition: true,
-      isAnimated: true,
-      dateInputFormat: 'DD/MM/YYYY HH:mm:ss',
+      dateInputFormat: 'DD/MM/YYYY hh:mm a',
       containerClass: 'theme-default',
-      showWeekNumbers: false
+      showWeekNumbers: false,
     };
   }
 

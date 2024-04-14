@@ -35,15 +35,13 @@
               </div>
               <div class="form-group col-md-3">
                 <label>Data e Hora</label>
-                <input title="data e hora" type="text" class="form-control"
-                [ngClass]="cssValidator(f.dataEvento)"
-                value="{{evento.dataEvento}}"
-                bsDatepicker
-                [bsConfig]="bsConfigDateTime"
-                formControlName="dataEvento" placeholder="Defina data e hora" [(ngModel)]="evento.dataEvento">
-                <div *ngIf="f.dataEvento?.errors?.required" class="invalid-feedback">
-                  data e hora é obrigatório.
+                <input type="datetime" class="form-control" [ngClass]="cssValidator(f.dataEvento)"
+                value="{{evento.dataEvento | DateFormatPipe}}" bsDatepicker [bsConfig]="bsConfig" formControlName="dataEvento"
+                placeholder="" [(ngModel)]="evento.dataEvento">
+                <div *ngIf="f.dataEvento.errors?.required && f.dataEvento.touched" class="invalid-feedback">
+                  Data e Hora é obrigatório.
                 </div>
+
               </div>
               <div class="form-group col-md-2">
                 <label>Qtd Pessoas</label>
@@ -104,7 +102,7 @@
               <button type="reset" class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
                 Cancelar Alteração
               </button>
-              <button type="submit" class="btn btn-success" [disabled]="!form.valid || !modoEditar"
+              <button type="submit" class="btn btn-success" [disabled]="!form.valid"
 
                 (click)="salvarEvento()">
                 Salvar Evento
@@ -159,22 +157,24 @@
                         <input [ngClass]="cssValidator(lotes.get(i+'.preco'))"
                         type="text" currencyMask class="form-control" formControlName="preco" placeholder="R$ 0,00">
                       </div>
+
                       <div class="form-group col-md-4">
                         <label>Data Início</label>
-                        <input [ngClass]="cssValidator(lotes.get(i+'.dataInicio'))"
-                        type="text" class="form-control" formControlName="dataInicio" placeholder="dd/mm/aaaa"
-                        value="{{lotes.get(i+'.dataInicio')?.value | date: 'dd/MM/yyyy'}}"
+                        <input type="datetime" class="form-control"
                         bsDatepicker
-                        [bsConfig]="bsConfigDateTime">
+                        value="{{lotes.get(i+'.dataInicio').value | date:'dd/MM/yyyy'}}"
+                        placeholder="01/01/2019"
+                        (bsValueChange)="mudarValorData($event, i, 'dataInicio')">
                       </div>
                       <div class="form-group col-md-4">
                         <label>Data Fim</label>
-                        <input [ngClass]="cssValidator(lotes.get(i+'.dataFim'))"
-                        type="text" class="form-control" formControlName="dataFim" placeholder="dd/mm/aaaa"
-                        value="{{lotes.get(i+'.dataFim')?.value | date: 'dd/MM/yyyy'}}"
+                        <input type="datetime" class="form-control"
                         bsDatepicker
-                        [bsConfig]="bsConfigDateTime">
+                        value="{{lotes.get(i+'.dataFim').value | date:'dd/MM/yyyy'}}"
+                        placeholder="01/01/2019"
+                        (bsValueChange)="mudarValorData($event, i, 'dataFim')">
                       </div>
+
                       <div class="col-md-4 pb-1 align-self-end ml-auto">
                         <legend class="d-flex justify-content-between">
                           <div class="btn-group">
@@ -250,7 +250,7 @@
           <p class="card-text">
             <b>Local:</b> {{evento.local}}
             <br>
-            <b>Data:</b> {{evento.dataEvento | DateTimeFormat_Pipe}}
+            <b>Data:</b> {{evento.dataEvento | DateFormatPipe}}
           </p>
           <hr>
           <p class="card-text">
