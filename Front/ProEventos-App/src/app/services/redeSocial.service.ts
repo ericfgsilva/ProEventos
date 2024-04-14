@@ -28,21 +28,57 @@ export class RedeSocialService {
                 .pipe(take(1));
   }
 
-  public getRedeSocial(eventoId: number, redeSocialId: number): Observable<RedeSocial>{
+  /**
+   *
+   * @param origem Informar a palavra 'palestrante' ou 'evento' para buscar na rota específica
+   * @param id Informar PalestranteId ou EventoId, dependendo da origem informada
+   * @param redesSociais Informar um array de objetos RedeSocial
+   * @returns Observable<RedeSocial[]>
+   */
+  public saveRedesSociais(origem: string, id: number, redesSociais: RedeSocial[]): Observable<RedeSocial[]>{
+    let URL =
+      id == 0
+        ? `${this.baseURL}/${origem.toLowerCase()}`
+        : `${this.baseURL}/${origem.toLowerCase()}/${id}`;
+
     return this.http
-                .get<RedeSocial>(`${this.baseURL}/${eventoId}/${redeSocialId}`)
+                .put<RedeSocial[]>(URL, redesSociais)
                 .pipe(take(1));
   }
 
-  public saveRedesSociais(eventoId: number, redesSociais: RedeSocial[]): Observable<RedeSocial[]>{
+  /**
+   *
+   * @param origem Informar a palavra 'palestrante' ou 'evento' para buscar na rota específica
+   * @param id Informar PalestranteId ou EventoId, dependendo da origem informada
+   * @param redeSocialId Informar o ID de objetos RedeSocial
+   * @returns Observable<any> - Pois é o retorno da rota
+   */
+  public deleteRedeSocial(origem: string, id: number, redeSocialId: number): Observable<any>{
+    let URL =
+      id == 0
+        ? `${this.baseURL}/${origem.toLowerCase()}/${redeSocialId}`
+        : `${this.baseURL}/${origem.toLowerCase()}/${id}/${redeSocialId}`;
+
     return this.http
-                .put<RedeSocial[]>(`${this.baseURL}/${eventoId}`, redesSociais)
+                .delete(URL)
                 .pipe(take(1));
   }
 
-  public deleteRedeSocial(eventoId: number, redeSocialId: number): Observable<any>{
+  /**
+   *
+   * @param origem Informar a palavra 'palestrante' ou 'evento' para buscar na rota específica
+   * @param id Informar PalestranteId ou EventoId, dependendo da origem informada
+   * @param redeSocialId Informar o ID de objetos RedeSocial
+   * @returns Observable<RedeSocial>
+   */
+  public getRedeSocial(origem: string, id: number, redeSocialId: number): Observable<RedeSocial>{
+    let URL =
+      id == 0
+        ? `${this.baseURL}/${origem.toLowerCase()}/${redeSocialId}`
+        : `${this.baseURL}/${origem.toLowerCase()}/${id}/${redeSocialId}`;
+
     return this.http
-                .delete(`${this.baseURL}/${eventoId}/${redeSocialId}`)
+                .get<RedeSocial>(URL)
                 .pipe(take(1));
   }
 }
