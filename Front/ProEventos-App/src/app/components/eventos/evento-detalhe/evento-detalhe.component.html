@@ -35,9 +35,13 @@
               </div>
               <div class="form-group col-md-3">
                 <label>Data e Hora</label>
-                <input type="datetime" class="form-control" [ngClass]="cssValidator(f.dataEvento)"
-                value="{{evento.dataEvento | DateTimeFormatPipe}}" bsDatepicker [bsConfig]="bsConfig" formControlName="dataEvento"
-                placeholder="" [(ngModel)]="evento.dataEvento">
+                <input
+                          [ngClass]="cssValidator(f.dataEvento)"
+                          type="datetime-local"
+                          class="form-control"
+                          placeholder="01/01/2019 00:00"
+                          formControlName="dataEvento"
+                        />
                 <div *ngIf="f.dataEvento.errors?.required && f.dataEvento.touched" class="invalid-feedback">
                   Data e Hora é obrigatório.
                 </div>
@@ -159,14 +163,22 @@
                       </div>
 
                       <div class="form-group col-md-4">
-                        <label>Data Início</label>
-                        <input type="date" class="form-control"
-                        bsDatepicker
-                        value="{{lotes.get(i+'.dataInicio').value | DateTimeFormatPipe:'dd/MM/yyyy'}}"
-                        placeholder="dd/mm/aaaa"
-                        (bsValueChange)="mudarValorData($event, i, 'dataInicio')">
+                        <label class="label">Data Início</label>
+                        <input
+                          [ngClass]="cssValidator(lotes.get(i + '.dataInicio'))"
+                          type="datetime-local"
+                          class="form-control"
+                          formControlName="dataInicio"
+                        />
                       </div>
+
                       <!--
+
+                      <div class="form-group col-md-4">
+                        <label class="label">Data Início</label>
+                        <input type="datetime" class="form-control" formControlName="dataInicio" placeholder="01/01/2019 00:00" bsDatepicker
+                          [bsConfig]="bsConfig">
+                      </div>
 
                       <div class="form-group col-md-4">
                         <label>Data Início</label>
@@ -175,13 +187,15 @@
                         placeholder="dd/mm/aaaa hh:mm">
                       </div>
                       -->
+
                       <div class="form-group col-md-4">
-                        <label>Data Fim</label>
-                        <input type="date" class="form-control"
-                        bsDatepicker
-                        value="{{lotes.get(i+'.dataFim').value | DateTimeFormatPipe:'dd/MM/yyyy'}}"
-                        placeholder="dd/mm/aaaa"
-                        (bsValueChange)="mudarValorData($event, i, 'dataFim')">
+                        <label class="label">Data Fim</label>
+                        <input
+                          [ngClass]="cssValidator(lotes.get(i + '.dataFim'))"
+                          type="datetime-local"
+                          class="form-control"
+                          formControlName="dataFim"
+                        />
                       </div>
 
                       <div class="col-md-4 pb-1 align-self-end ml-auto">
@@ -260,6 +274,8 @@
             <b>Local:</b> {{evento.local}}
             <br>
             <b>Data:</b> {{evento.dataEvento | DateTimeFormatPipe}}
+            <br>
+            <b>Capacidade:</b> {{evento.qtdPessoas}}
           </p>
           <hr>
           <p class="card-text">
@@ -267,10 +283,6 @@
             <small class="text-muted">Telefone: {{evento.telefone}}</small>
             <br>
             <small class="text-muted">e-mail: {{evento.email}}</small>
-          </p>
-          <p class="card-text">
-            Capacidade:
-            <small class="text-muted">{{evento.qtdPessoas}}</small>
           </p>
           <div class="row">
             <div class="icon-block col-md-8 iconesSociais">
