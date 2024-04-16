@@ -1,3 +1,4 @@
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl,
   FormArray,
@@ -8,14 +9,13 @@ import { AbstractControl,
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import { EventoService } from '@app/services/evento.service';
 import { Evento } from '@app/models/Evento';
-import { Lote } from '@app/models/Lote';
 import { LoteService } from '@app/services/lote.service';
+import { Lote } from '@app/models/Lote';
 import { DatePipe } from '@angular/common';
 import { environment } from '@environments/environment';
 
@@ -29,15 +29,15 @@ export class EventoDetalheComponent implements OnInit {
 
   modalRef?: BsModalRef;
   evento = {} as Evento;
-  loteAtual = {id: 0, nome: '', indice: 0};
   form!: FormGroup;
   estadoSalvar = 'post';
+  loteAtual = {id: 0, nome: '', indice: 0};
   imagemURL = 'assets/img/upload.png';
   file!: File;
 
   get eventoId(): number{
-  const eventoIdParam = this.activatedRouter.snapshot.paramMap.get('id');
-  return eventoIdParam !== null ? +eventoIdParam : 0;
+    const eventoIdParam = this.activatedRouter.snapshot.paramMap.get('id');
+    return eventoIdParam !== null ? +eventoIdParam : 0;
   }
 
   get modoEditar(): boolean{
@@ -57,37 +57,37 @@ export class EventoDetalheComponent implements OnInit {
       adaptivePosition: true,
       dateInputFormat: 'DD/MM/YYYY hh:mm a',
       containerClass: 'theme-default',
-      showWeekNumbers: false,
+      showWeekNumbers: false
     };
   }
 
-  // get bsConfigData(): any {
-  //   return {
-  //     adaptivePosition: true,
-  //     isAnimated: true,
-  //     dateInputFormat: 'DD/MM/YYYY',
-  //     containerClass: 'theme-default',
-  //     showWeekNumbers: false
-  //   };
-  // }
+  get bsConfigData(): any {
+    return {
+      adaptivePosition: true,
+      dateInputFormat: 'DD/MM/YYYY',
+      containerClass: 'theme-default',
+      showWeekNumbers: false
+    };
+  }
 
   constructor(
     private fb: FormBuilder,
     private localeService: BsLocaleService,
     private activatedRouter: ActivatedRoute,
-    private router: Router,
     private eventoService: EventoService,
-    private loteService: LoteService,
     private spinner: NgxSpinnerService,
+    private toastr: ToastrService,
     private modalService: BsModalService,
-    private toastr: ToastrService)
-  {
+    private router: Router,
+    private loteService: LoteService,
+    private datePipe: DatePipe
+  ){
     this.localeService.use('pt-br');
   }
 
   public carregarEvento(): void {
 
-    if(this.eventoId != null && this.eventoId != 0) {
+    if(this.eventoId !== null && this.eventoId !== 0) {
       this.spinner.show();
 
       this.estadoSalvar = 'put';
@@ -95,16 +95,16 @@ export class EventoDetalheComponent implements OnInit {
       this.eventoService.getEventoById(this.eventoId).subscribe({
         next: (evento: Evento) => {
           this.evento = {...evento};
-          if(this.evento.imageURL != '' && this.evento.imageURL != null){
-            this.imagemURL = environment.apiURL + 'Resources/Images/' + this.evento.imageURL;
+          this.form.patchValue(this.evento);
+          if(this.evento.imageURL !== '' && this.evento.imageURL !== null){
+            this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imageURL;
           }
           //esta forma é mais eficaz em relação ao carregarLotes() uma vez que o objeto evento já retorna a lista de lotes
           this.evento.lotes.forEach(lote => {
             this.lotes.push(this.criarLote(lote));
           });
           //this.carregarLotes();
-          this.form.patchValue(this.evento);
-          //this.form.setValue({'imageURL': this.evento.imageURL, 'imageAlt': this.evento.imageAlt});
+          this.form.setValue({'imageURL': this.evento.imageURL, 'imageAlt': this.evento.imageAlt});
         },
         error: (error: any) => {
           this.toastr.error('Erro ao tentar carregar o evento.','Erro');
@@ -114,7 +114,7 @@ export class EventoDetalheComponent implements OnInit {
     }
   }
 
-  //Execmplo de outra possibilidade para carregar o lote em um segundo acesso ao banco.
+  //Exemplo de outra possibilidade para carregar o lote em um segundo acesso ao banco.
   //Poderia ser utilizado caso o objeto pretendido não estivesse já como parte do evento por exemplo.
   public carregarLotes(): void {
     this.loteService.getLotesByEventoId(this.eventoId).subscribe(
@@ -143,18 +143,14 @@ export class EventoDetalheComponent implements OnInit {
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
       telefone: ['', [Validators.required, Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
-      //imageURL: [''],
-      //imageAlt: this.modoEditar && this.imagemURL !== null
-      //          ? ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]]
-      //          : [''],
-      lotes: this.fb.array([])
-    })
+      imageURL: [''],
+      lotes: this.fb.array([]),
+    });
   }
 
   public mudarValorData(value: Date, indice: number, campo: string): void{
     this.lotes.value[indice][campo] = value;
   }
-
 
   public adicionarLote(): void{
     this.lotes.controls.reverse();
@@ -169,7 +165,7 @@ export class EventoDetalheComponent implements OnInit {
       quantidade: [lote.quantidade, Validators.required],
       preco: [lote.preco, Validators.required],
       dataInicio: [lote.dataInicio],
-      dataFim: [lote.dataFim]
+      dataFim: [lote.dataFim],
     });
   }
 

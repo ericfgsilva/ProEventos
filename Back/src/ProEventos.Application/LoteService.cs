@@ -43,7 +43,7 @@ namespace ProEventos.Application
             try
             {
                 model.EventoId = eventoId;
-                _geralPersist.Update<Lote>(_mapper.Map(model, lotes.FirstOrDefault(lote => lote.Id == model.Id)));
+                _geralPersist.Update<Lote>(_mapper.Map(model, lotes.Where(lote => lote.Id == model.Id).FirstOrDefault()));
 
                 await _geralPersist.SaveChangesAsync();
             }

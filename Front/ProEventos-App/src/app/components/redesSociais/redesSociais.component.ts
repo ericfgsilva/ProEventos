@@ -63,6 +63,10 @@ export class RedesSociaisComponent implements OnInit {
     return this.formRS.get('redesSociais') as FormArray;
   }
 
+  public retornaIconeRedeSocial(icone: string): string {
+    return icone === null || icone === '' ? '' : 'fab fa-'+icone;
+  }
+
   public retornaTituloRedeSocial(nome: string): string {
     return nome === null || nome === '' ? 'Rede social' : nome;
   }

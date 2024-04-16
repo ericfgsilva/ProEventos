@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
 import { DateTimeFormatPipe } from './DateTimeFormat.pipe';
 
 describe('Pipe: DateTimeFormate', () => {

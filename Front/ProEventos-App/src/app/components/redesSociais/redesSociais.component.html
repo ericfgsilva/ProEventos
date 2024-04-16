@@ -4,7 +4,7 @@
     <div formArrayName="redesSociais" *ngFor="let redeSocial of redesSociais.controls; let i=index">
       <fieldset [formGroupName]="i" class="form-group">
         <legend class="d-flex justify-content-between capitalize">
-          {{ retornaTituloRedeSocial(redesSociais.get(i+'.nome').value) }}
+          <i class="{{retornaIconeRedeSocial(redesSociais.get(i+'.nome').value)}}"></i>
           <button class="btn btn-sm btn-warning mb-1" (click)="removerRedeSocial(template, i)">remove</button>
         </legend>
         <div class="row">
@@ -12,17 +12,17 @@
             <label>Nome</label>
             <select class="form-control" [ngClass]="cssValidator(redesSociais.get(i+'.nome'))" formControlName="nome">
               <option value="">Selecione</option>
-              <option value="fab fa-youtube">Youtube</option>
-              <option value="fab fa-instagram">Instagram</option>
-              <option value="fab fa-facebook">Facebook</option>
-              <option value="fab fa-twitter">Twitter</option>
-              <option value="fab fa-google">Google</option>
-              <option value="fab fa-linkedin">Linkedin</option>
-              <option value="fab fa-pinterest">Pinterest</option>
-              <option value="fab fa-whatsapp">Whatsapp</option>
-              <option value="fab fa-telegram">Telegram</option>
-              <option value="fab fa-skype">Skype</option>
-              <option value="fab fa-vimeo">Vimeo</option>
+              <option value="youtube">Youtube</option>
+              <option value="instagram">Instagram</option>
+              <option value="facebook">Facebook</option>
+              <option value="twitter">Twitter</option>
+              <option value="google">Google</option>
+              <option value="linkedin">Linkedin</option>
+              <option value="pinterest">Pinterest</option>
+              <option value="whatsapp">Whatsapp</option>
+              <option value="telegram">Telegram</option>
+              <option value="skype">Skype</option>
+              <option value="vimeo">Vimeo</option>
             </select>
           </div>
           <div class="form-group col-md-8">

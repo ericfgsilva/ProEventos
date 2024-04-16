@@ -36,7 +36,7 @@
               <div class="form-group col-md-3">
                 <label>Data e Hora</label>
                 <input type="datetime" class="form-control" [ngClass]="cssValidator(f.dataEvento)"
-                value="{{evento.dataEvento | DateFormatPipe}}" bsDatepicker [bsConfig]="bsConfig" formControlName="dataEvento"
+                value="{{evento.dataEvento | DateTimeFormatPipe}}" bsDatepicker [bsConfig]="bsConfig" formControlName="dataEvento"
                 placeholder="" [(ngModel)]="evento.dataEvento">
                 <div *ngIf="f.dataEvento.errors?.required && f.dataEvento.touched" class="invalid-feedback">
                   Data e Hora é obrigatório.
@@ -160,18 +160,27 @@
 
                       <div class="form-group col-md-4">
                         <label>Data Início</label>
-                        <input type="datetime" class="form-control"
+                        <input type="date" class="form-control"
                         bsDatepicker
-                        value="{{lotes.get(i+'.dataInicio').value | date:'dd/MM/yyyy'}}"
-                        placeholder="01/01/2019"
+                        value="{{lotes.get(i+'.dataInicio').value | DateTimeFormatPipe:'dd/MM/yyyy'}}"
+                        placeholder="dd/mm/aaaa"
                         (bsValueChange)="mudarValorData($event, i, 'dataInicio')">
                       </div>
+                      <!--
+
+                      <div class="form-group col-md-4">
+                        <label>Data Início</label>
+                        <input type="datetime-local" class="form-control"
+                        value="{{lotes.get(i+'.dataInicio').value | DateTimeFormatPipe:'dd/MM/yyyy hh:mm'}}"
+                        placeholder="dd/mm/aaaa hh:mm">
+                      </div>
+                      -->
                       <div class="form-group col-md-4">
                         <label>Data Fim</label>
-                        <input type="datetime" class="form-control"
+                        <input type="date" class="form-control"
                         bsDatepicker
-                        value="{{lotes.get(i+'.dataFim').value | date:'dd/MM/yyyy'}}"
-                        placeholder="01/01/2019"
+                        value="{{lotes.get(i+'.dataFim').value | DateTimeFormatPipe:'dd/MM/yyyy'}}"
+                        placeholder="dd/mm/aaaa"
                         (bsValueChange)="mudarValorData($event, i, 'dataFim')">
                       </div>
 
@@ -250,7 +259,7 @@
           <p class="card-text">
             <b>Local:</b> {{evento.local}}
             <br>
-            <b>Data:</b> {{evento.dataEvento | DateFormatPipe}}
+            <b>Data:</b> {{evento.dataEvento | DateTimeFormatPipe}}
           </p>
           <hr>
           <p class="card-text">

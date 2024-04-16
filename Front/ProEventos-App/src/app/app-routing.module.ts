@@ -14,6 +14,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
 import { PerfilComponent } from './components/user/perfil/perfil.component';
 
 import { ContatosComponent } from './components/contatos/contatos.component';
+
 import { AuthGuard } from './guard/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 

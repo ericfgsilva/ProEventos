@@ -9,9 +9,6 @@ import { User } from './models/identity/User';
 })
 export class AppComponent {
 
-  title = 'ProEventos-App';
-  tituloPagina = 'ProEvento';
-
   constructor(public accountService: AccountService){}
 
   ngOnInit(): void {
@@ -21,11 +18,14 @@ export class AppComponent {
   setCurrentUser(): void {
     let user: User;
 
-    if(localStorage.getItem('user'))
-      user = JSON.parse(localStorage.getItem('user') ?? '{}');
-    else
-      user = null
+    if(localStorage.getItem('user')){
 
+      user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    }
+    else{
+
+      user = null
+    }
 
     if(user)
       this.accountService.setCurrentUser(user);
