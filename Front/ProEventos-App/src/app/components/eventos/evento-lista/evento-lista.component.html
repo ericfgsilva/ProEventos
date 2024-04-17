@@ -58,7 +58,7 @@
         <td>{{evento.dataEvento}}</td>
         <!--<td>{{evento.dataEvento | DateTimeFormat_Pipe}}</td>-->
         <td class="d-none d-md-table-cell">{{evento.qtdPessoas}}</td>
-        <td class="d-none d-md-table-cell">{{evento.lotes[0]?.nome | uppercase}}</td>
+        <td class="d-none d-md-table-cell">{{evento.lotes[evento.lotes.length-1]?.nome | uppercase}}</td>
         <td>
           <i class="fa-regular fa-trash-can fa-lg" style="color: red;" tooltip="Excluir evento" (click)="abrirModal($event, template, evento.id)"></i>
           <!-- <button type="button" class="btn danger btn-sm" tooltip="Excluir evento" (click)="abrirModal($event, template, evento.id)">
