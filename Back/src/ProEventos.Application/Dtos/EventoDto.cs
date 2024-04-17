@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ProEventos.Domain;
 
 namespace ProEventos.Application.Dtos
 {
@@ -37,11 +38,10 @@ namespace ProEventos.Application.Dtos
         public string Email { get; set; }
         public string UserId { get; set; }
 
-        public UserDto UserDto { get; set; }
+        public UserUpdateDto User { get; set; }
         
         public IEnumerable<LoteDto> Lotes { get; set; }
         public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
-        public IEnumerable<PalestranteDto> Palestrantes { get; set; }
-        
+        public IEnumerable<PalestranteEvento> PalestrantesEventos { get; set; }        
     }
 }

@@ -32,6 +32,7 @@
         <div class="card-body">
           <div class="h4 text-center mb-3">@{{palestrante.user.userName}}</div>
           <div *ngIf="palestrante.user.primeiroNome || palestrante.user.ultimoNome" class="h7 text-bold pb-1"><strong>Nome:</strong> {{palestrante.user.primeiroNome}} {{palestrante.user.ultimoNome}}</div>
+          <div *ngIf="palestrante.user.titulo" class="h7 text-bold pb-1"><strong>Título:</strong> {{palestrante.user.titulo}}</div>
           <div *ngIf="palestrante.miniCurriculo" class="captilizeFirstLetter h7">
             {{palestrante.miniCurriculo}}
           </div>
