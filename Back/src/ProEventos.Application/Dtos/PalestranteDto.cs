@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProEventos.Domain;
 
 namespace ProEventos.Application.Dtos
 {
@@ -9,6 +10,6 @@ namespace ProEventos.Application.Dtos
         public string UserId { get; set; }
         public UserUpdateDto User { get; set; }
         public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
-        public IEnumerable<EventoDto> Eventos { get; set; }
+        public IEnumerable<PalestranteEvento> PalestrantesEventos { get; set; }
     }
 }
