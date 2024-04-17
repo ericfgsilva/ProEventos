@@ -34,7 +34,7 @@ namespace ProEventos.Application
 
                 if(await _palestrantePersist.SaveChangesAsync())
                 {
-                    var palestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
+                    var palestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false, false);
                     
                     return _mapper.Map<PalestranteDto>(palestranteRetorno);
                 }
@@ -49,7 +49,7 @@ namespace ProEventos.Application
         {
             try
             {
-                var palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
+                var palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false, false);
                 if(palestrante == null) return null;
                 
                 model.Id = palestrante.Id;
@@ -61,7 +61,7 @@ namespace ProEventos.Application
 
                 if(await _palestrantePersist.SaveChangesAsync())
                 {
-                    return _mapper.Map<PalestranteDto>(await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false));
+                    return _mapper.Map<PalestranteDto>(await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false, false));
                 }
                 return null;
             }
@@ -94,11 +94,11 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<PalestranteDto> GetPalestranteByUserIdAsync(string userId, bool includeEventos = false)
+        public async Task<PalestranteDto> GetPalestranteByUserIdAsync(string userId, bool includeEventos = false, bool includeRedesSociais = false)
         {
             try
             {
-                var palestrante =  await _palestrantePersist.GetPalestranteByUserIdAsync(userId, includeEventos);
+                var palestrante =  await _palestrantePersist.GetPalestranteByUserIdAsync(userId, includeEventos, includeRedesSociais);
                 if(palestrante == null) return null;
 
                 return _mapper.Map<PalestranteDto>(palestrante);

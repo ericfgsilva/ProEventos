@@ -13,12 +13,14 @@ namespace ProEventos.Application
     {
         private readonly IGeralPersist _geralPersist;
         private readonly IEventoPersist _eventoPersist;
+        private readonly IPalestrantePersist _palestrantePersist;
         private readonly IMapper _mapper;
 
-        public EventoService(IGeralPersist geralPersist, IEventoPersist eventoPersist, IMapper mapper)
+        public EventoService(IGeralPersist geralPersist, IEventoPersist eventoPersist, IPalestrantePersist palestrantePersist, IMapper mapper)
         {
             _geralPersist = geralPersist;
             _eventoPersist = eventoPersist;
+            _palestrantePersist = palestrantePersist;
             _mapper = mapper;
         }
 
@@ -28,11 +30,18 @@ namespace ProEventos.Application
             {
                 var evento = _mapper.Map<Evento>(model);
                 evento.UserId = userId;
-
                 _geralPersist.Add<Evento>(evento);
 
+                var palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false, false);
+                
                 if(await _geralPersist.SaveChangesAsync())
                 {
+                    if(palestrante != null){
+                        var palestranteEvento = new PalestranteEvento() {PalestranteId = palestrante.Id, EventoId = evento.Id};
+                        _geralPersist.Add<PalestranteEvento>(palestranteEvento);
+                        await _geralPersist.SaveChangesAsync();
+                    }                    
+
                     return _mapper.Map<EventoDto>(await _eventoPersist.GetEventoByIdAsync(userId, evento.Id, false));
                 }
                 return null;
