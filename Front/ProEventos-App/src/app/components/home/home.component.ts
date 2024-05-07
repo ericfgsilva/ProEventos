@@ -10,6 +10,13 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.exibirHeader();
+  }
+
+  exibirHeader(): any
+  {
+    //window.location.href = '/user/login';
+    return localStorage.getItem('token') != null;
   }
 
 }

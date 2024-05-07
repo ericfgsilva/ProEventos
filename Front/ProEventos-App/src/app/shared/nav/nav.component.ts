@@ -19,11 +19,6 @@ export class NavComponent implements OnInit {
   logout(): void {
     this.accountService.logout();
     localStorage.clear();
-    this.router.navigateByUrl('/user/login');
+    window.location.href = '/user/login';
   }
-
-  // showMenu(): boolean {
-  //   return this.router.url != '/user/login';
-  // }
-
 }

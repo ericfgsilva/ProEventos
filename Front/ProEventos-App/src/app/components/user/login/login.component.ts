@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         else
           console.error(error);
       }
-    )
+    );
   }
 
 }
